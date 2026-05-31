@@ -296,6 +296,14 @@ ${glossaryTermsHtml}
       <li><strong>全範囲クイズ</strong>：全モジュールからランダム出題</li>
     </ul>
   </section>
+  <section style="margin-bottom:24px">
+    <h2 style="font-size:1.2rem;font-weight:700;margin-bottom:8px">編集・制作方針</h2>
+    <p style="color:#444">本サイトのコンテンツは、ビジネス実務法務検定（3級）の公式の出題範囲や関連する法令・一般に流通している法務書籍を参照しつつ、運営者が内容を一から再構成し、初学者がつまずきやすい点を補う形で独自に解説しています。他サイトの文章をそのまま転載することはありません。用語集・確認問題はすべて本サイト向けに独自に制作したものです。法改正や内容の誤り・古くなった情報に気づいた場合は、お問い合わせを受けて随時見直し・修正します。</p>
+  </section>
+  <section style="margin-bottom:24px">
+    <h2 style="font-size:1.2rem;font-weight:700;margin-bottom:8px">お問い合わせ</h2>
+    <p style="color:#444">内容の誤り・ご意見・ご要望は<a href="https://forms.gle/ccMv7oKwz6ysDHBe6" target="_blank" rel="noopener noreferrer" style="color:#2563eb">こちらのGoogleフォーム</a>からお願いします。</p>
+  </section>
   <section>
     <h2 style="font-size:1.2rem;font-weight:700;margin-bottom:8px">免責事項</h2>
     <p style="color:#444">本サイトの解説・問題は学習目的で作成されており、内容の正確性・完全性を保証するものではありません。</p>
