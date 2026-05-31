@@ -30,6 +30,8 @@ lint_out.json
 # Test outputs
 test-results/
 playwright-report/
+tests/
+playwright.config.ts
 
 # Internal research notes (kept locally only)
 docs/gemini-research.md

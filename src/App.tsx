@@ -2,16 +2,24 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import './App.css';
 import { modules } from './data/modules';
-import { comprehensiveQuizQuestions } from './data/comprehensiveQuiz';
 import { glossary } from './data/glossary';
 import { Quiz } from './components/Quiz';
 import { TermText } from './components/TermGlossary';
 import { ExamGuide } from './components/ExamGuide';
 import { chapterNames } from './data/chapters';
-import { ChevronLeft, Book, LayoutDashboard, ArrowRight, Search as SearchIcon, X, Target, Trash2, Shuffle, CheckCircle2, XCircle } from 'lucide-react';
+import { ChevronLeft, Book, LayoutDashboard, ArrowRight, Search as SearchIcon, X, Target, Trash2, Shuffle, CheckCircle2, XCircle, ChevronUp, ListOrdered, Scale } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const PROGRESS_KEY = 'bizlaw-g3-progress';
+
+const chapterColors: Record<number, { bg: string; text: string; accent: string; light: string }> = {
+  1: { bg: '#dbeafe', text: '#1e3a8a', accent: '#1d4ed8', light: '#eff6ff' },
+  2: { bg: '#e0f2fe', text: '#075985', accent: '#0369a1', light: '#f0f9ff' },
+  3: { bg: '#d1fae5', text: '#065f46', accent: '#059669', light: '#ecfdf5' },
+  4: { bg: '#fef3c7', text: '#92400e', accent: '#d97706', light: '#fffbeb' },
+  5: { bg: '#ede9fe', text: '#5b21b6', accent: '#7c3aed', light: '#f5f3ff' },
+  6: { bg: '#fce7f3', text: '#9d174d', accent: '#db2777', light: '#fdf2f8' },
+};
 
 interface ProgressEntry { score: number; total: number; completedAt: string; }
 type Progress = Record<string, ProgressEntry>;
@@ -45,9 +53,11 @@ function App() {
   const [rqDone, setRqDone] = useState(false);
 
   const startRandomQuiz = useCallback(() => {
-    const qs = [...comprehensiveQuizQuestions]
-      .sort(() => Math.random() - 0.5)
-      .map(({ moduleId, moduleTitle, ...q }) => ({ q, moduleTitle, moduleId }));
+    // 各モジュールから2問ずつ無作為抽出→全体をシャッフル（合計36問）
+    const qs = modules.flatMap(m => {
+      const shuffled = [...m.quiz].sort(() => Math.random() - 0.5);
+      return shuffled.slice(0, 2).map(q => ({ q, moduleTitle: m.title, moduleId: m.id }));
+    }).sort(() => Math.random() - 0.5);
     setRqQuestions(qs);
     setRqIdx(0);
     setRqSelected(null);
@@ -192,6 +202,7 @@ function App() {
     let currentList: React.ReactNode[] = [];
     let currentOList: React.ReactNode[] = [];
     let tableLines: string[] = [];
+    let h2Counter = 0;
 
     const flushList = (key: string) => {
       if (currentList.length > 0) {
@@ -243,7 +254,7 @@ function App() {
 
       if (trimmedLine.startsWith('#### ')) { flushList(key); flushOList(key); result.push(<h4 key={key} className="content-h4">{parseInlineContent(trimmedLine.slice(5))}</h4>); return; }
       if (trimmedLine.startsWith('### ')) { flushList(key); flushOList(key); result.push(<h3 key={key} className="content-h3">{parseInlineContent(trimmedLine.slice(4))}</h3>); return; }
-      if (trimmedLine.startsWith('## ')) { flushList(key); flushOList(key); result.push(<h2 key={key} className="content-h2">{parseInlineContent(trimmedLine.slice(3))}</h2>); return; }
+      if (trimmedLine.startsWith('## ')) { flushList(key); flushOList(key); const sectionId = `section-${h2Counter++}`; result.push(<h2 key={key} id={sectionId} className="content-h2">{parseInlineContent(trimmedLine.slice(3))}</h2>); return; }
       if (trimmedLine.startsWith('---')) { flushList(key); flushOList(key); result.push(<hr key={key} className="content-hr" />); return; }
       if (trimmedLine.startsWith('- ')) { flushOList(key); currentList.push(<li key={`li-${lineIdx}`}>{parseInlineContent(trimmedLine.slice(2))}</li>); return; }
       const olMatch = trimmedLine.match(/^(\d+)\. (.+)/);
@@ -275,15 +286,57 @@ function App() {
     return idx >= 0 && idx < modules.length - 1 ? modules[idx + 1] : null;
   }, [activeModuleId]);
 
+  // モジュール目次（h2 見出しを抽出）
+  const tocItems = useMemo(() => {
+    if (!activeModule) return [];
+    const items: { id: string; text: string }[] = [];
+    let counter = 0;
+    for (const line of activeModule.content.split('\n')) {
+      const trimmed = line.trim();
+      if (trimmed.startsWith('## ') && !trimmed.startsWith('### ')) {
+        items.push({
+          id: `section-${counter++}`,
+          text: trimmed.slice(3).replace(/\*\*/g, '').trim(),
+        });
+      }
+    }
+    return items;
+  }, [activeModule]);
+
+  // スクロール進捗とトップ戻るボタン
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    if (!activeModuleId) {
+      setScrollProgress(0);
+      setShowBackToTop(false);
+      return;
+    }
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 0;
+      setScrollProgress(progress);
+      setShowBackToTop(scrollTop > 500);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [activeModuleId]);
+
   const completedCount = modules.filter(m => progress[m.id]).length;
   const totalModules = modules.length;
 
   return (
     <div className="container" style={{ maxWidth: activeModuleId ? '800px' : view === 'glossary' ? '1000px' : '800px' }}>
       <header className="header">
-        <h1 className="title" onClick={() => updateModuleId(null)} style={{ cursor: 'pointer' }}>ビジネス実務法務検定 3級</h1>
-        <p className="subtitle">企業法務 学習リファレンス</p>
-        <p style={{ margin: '0.25rem 0 0', fontSize: '0.8rem', color: 'var(--text-muted)', textAlign: 'center' }}>全{modules.length}モジュール・{modules.reduce((s, m) => s + m.quiz.length, 0)}問クイズ・用語集で合格をサポート</p>
+        <div className="brand" onClick={() => updateModuleId(null)}>
+          <Scale className="brand-icon" strokeWidth={1.5} />
+          <h1 className="title">ビジネス実務法務検定 3級</h1>
+        </div>
+        <p className="subtitle">企業法務　学習リファレンス</p>
+        <p style={{ margin: '0.4rem 0 0', fontSize: '0.75rem', color: 'var(--text-muted)', textAlign: 'center', letterSpacing: '0.05em' }}>全{modules.length}モジュール・{modules.reduce((s, m) => s + m.quiz.length, 0)}問クイズ・用語集で合格をサポート</p>
       </header>
 
       {!activeModuleId && (
@@ -314,11 +367,69 @@ function App() {
           {activeModuleId ? (
             <motion.div key={activeModuleId} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }}>
               <button className="btn-back" onClick={() => updateModuleId(null)}><ChevronLeft size={18} /> 一覧に戻る</button>
-              <div className="card">
-                <span className="badge-chapter">Chapter {activeModule?.chapter}</span>
+              <div
+                className="scroll-progress"
+                style={{
+                  width: `${scrollProgress}%`,
+                  background: chapterColors[activeModule?.chapter ?? 1].accent,
+                }}
+              />
+              <div
+                className="card"
+                style={{
+                  borderTop: `4px solid ${chapterColors[activeModule?.chapter ?? 1].accent}`,
+                  '--ch-accent': chapterColors[activeModule?.chapter ?? 1].accent,
+                } as React.CSSProperties}
+              >
+                <span style={{
+                  background: chapterColors[activeModule?.chapter ?? 1].bg,
+                  color: chapterColors[activeModule?.chapter ?? 1].text,
+                  fontSize: '0.6875rem', fontWeight: 700,
+                  padding: '3px 10px', borderRadius: '9999px',
+                  display: 'inline-block', marginBottom: '0.5rem',
+                }}>Chapter {activeModule?.chapter}：{chapterNames[activeModule?.chapter ?? 1]}</span>
                 <h2 style={{ marginTop: '0.5rem' }}>{parseContent(activeModule?.title || '')}</h2>
+                {tocItems.length > 2 && (
+                  <details className="module-toc" open>
+                    <summary>
+                      <ListOrdered size={14} />
+                      このモジュールの目次（{tocItems.length}セクション）
+                    </summary>
+                    <ol>
+                      {tocItems.map(item => (
+                        <li key={item.id}>
+                          <a href={`#${item.id}`}>{item.text}</a>
+                        </li>
+                      ))}
+                    </ol>
+                  </details>
+                )}
                 <div className="content-body">{activeModule && parseContent(activeModule.content)}</div>
+                <div className="module-bottom-nav">
+                  <button
+                    className="btn-back-to-list"
+                    onClick={() => updateModuleId(null)}
+                  >
+                    <ChevronLeft size={16} /> モジュール一覧へ
+                  </button>
+                  {nextModule && (
+                    <button
+                      className="btn-next-module"
+                      onClick={() => updateModuleId(nextModule.id)}
+                    >
+                      次のモジュール：{nextModule.title} <ArrowRight size={16} />
+                    </button>
+                  )}
+                </div>
               </div>
+              <button
+                className={`back-to-top ${showBackToTop ? 'visible' : ''}`}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                style={{ background: chapterColors[activeModule?.chapter ?? 1].accent }}
+                aria-label="ページトップへ戻る"
+              >
+                <ChevronUp size={22} />
+              </button>
               <div style={{ marginTop: '2rem' }}>
                 <Quiz
                   key={activeModuleId}
@@ -461,6 +572,30 @@ function App() {
             </motion.div>
           ) : view === 'dashboard' ? (
             <motion.div key="dash" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+              {!searchQuery && completedCount > 0 && (() => {
+                const overallPct = Math.round((completedCount / totalModules) * 100);
+                const nextToStudy = modules.find(m => !progress[m.id]) ?? null;
+                return (
+                  <div className="progress-strip">
+                    <span className="progress-strip-stat">
+                      {completedCount}/{totalModules}　<span className="pct">{overallPct}%</span>
+                    </span>
+                    <div className="progress-strip-bar">
+                      <div className="progress-strip-bar-fill" style={{ width: `${overallPct}%` }} />
+                    </div>
+                    {nextToStudy && (
+                      <span
+                        className="progress-strip-next"
+                        onClick={() => updateModuleId(nextToStudy.id)}
+                        style={{ '--ch-accent': chapterColors[nextToStudy.chapter].accent } as React.CSSProperties}
+                      >
+                        次へ：{nextToStudy.title} <ArrowRight size={12} />
+                      </span>
+                    )}
+                  </div>
+                );
+              })()}
+
               <div className="search-container">
                 <div className="search-input-wrapper">
                   <SearchIcon size={18} className="search-icon" />
@@ -471,26 +606,63 @@ function App() {
               <div className="roadmap-grid">
                 {filteredModules.reduce<React.ReactNode[]>((acc, m, idx) => {
                   const prev = filteredModules[idx - 1];
+                  const cc = chapterColors[m.chapter] ?? chapterColors[1];
                   if (!prev || prev.chapter !== m.chapter) {
+                    if (prev) acc.push(<div key={`ch-end-${prev.chapter}`} style={{ marginBottom: '1.5rem' }} />);
+                    const chMods = modules.filter(x => x.chapter === m.chapter);
+                    const chDone = chMods.filter(x => progress[x.id]).length;
+                    const chPct = chMods.length > 0 ? (chDone / chMods.length) * 100 : 0;
                     acc.push(
-                      <div key={`ch-${m.chapter}`} className="chapter-header">
-                        <span className="badge-chapter" style={{ fontSize: '0.7rem' }}>Chapter {m.chapter}</span>
-                        <h3 className="content-h3" style={{ margin: '0.25rem 0 0' }}>{chapterNames[m.chapter]}</h3>
+                      <div key={`ch-${m.chapter}`} id={`ch-section-${m.chapter}`} className="chapter-header"
+                        style={{
+                          '--ch-accent': cc.accent,
+                          '--ch-bg': cc.bg,
+                          scrollMarginTop: '70px',
+                        } as React.CSSProperties}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                          <span style={{
+                            background: cc.accent, color: '#fff',
+                            fontSize: '0.65rem', fontWeight: 700,
+                            padding: '2px 8px', borderRadius: '9999px', letterSpacing: '0.05em',
+                          }}>Chapter {m.chapter}</span>
+                          <span style={{ fontSize: '0.7rem', color: cc.text, fontWeight: 600 }}>
+                            {chDone}/{chMods.length}モジュール
+                          </span>
+                        </div>
+                        <h3 style={{
+                          margin: '0.35rem 0 0', fontSize: '1.05rem', fontWeight: 800,
+                          color: cc.text, letterSpacing: '-0.2px',
+                        }}>{chapterNames[m.chapter]}</h3>
+                        <div className="chapter-header-progress">
+                          <div className="chapter-header-progress-fill" style={{ width: `${chPct}%`, background: cc.accent }} />
+                        </div>
                       </div>
                     );
                   }
                   const p = progress[m.id];
                   acc.push(
-                    <div key={m.id} className="card-module" onClick={() => updateModuleId(m.id)}>
+                    <div key={m.id} className="card-module" onClick={() => updateModuleId(m.id)}
+                      style={{
+                        '--ch-accent': cc.accent,
+                        '--ch-light': cc.light,
+                        borderRadius: idx === filteredModules.length - 1 || filteredModules[idx + 1]?.chapter !== m.chapter
+                          ? '0 0 var(--radius-card) var(--radius-card)' : '0',
+                        marginBottom: 0,
+                        borderTop: 'none',
+                      } as React.CSSProperties}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span className="badge-chapter">Chapter {m.chapter}</span>
+                        <span style={{
+                          background: cc.bg, color: cc.text,
+                          fontSize: '0.6875rem', fontWeight: 600,
+                          padding: '2px 8px', borderRadius: '9999px',
+                        }}>Ch{m.chapter}</span>
                         {p && (
                           <span className={`progress-badge ${p.score === p.total ? 'perfect' : ''}`}>
                             {p.score === p.total ? '✓ ' : ''}{p.score}/{p.total}問
                           </span>
                         )}
                       </div>
-                      <h4>{parseContent(m.title)}</h4>
+                      <h4 style={{ margin: '0.4rem 0 0.2rem', fontSize: '0.95rem' }}>{parseContent(m.title)}</h4>
                       <div className="module-desc">{parseContent(m.description)}</div>
                     </div>
                   );

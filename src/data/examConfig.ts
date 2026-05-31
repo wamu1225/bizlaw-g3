@@ -9,10 +9,10 @@ export const EXAM_CONFIG = {
   questionCount: '50問',              // 出題数
   passingScore: 70,                   // 合格基準（点）
   passingScoreLabel: '100点満点中70点以上',
-  format: 'マークシート方式（多肢選択式）',
-  schedule: '年2回（7月・12月）',
+  format: 'IBT / CBT方式（五答択一式）',
+  schedule: '随時（IBT）・CBT会場により異なる',
   description: '民法・商法・会社法など企業取引に必要な法律知識の基礎を問う検定',
-  officialUrl: 'https://www.tokyo-cci.or.jp/kentei/bizlaw/',
+  officialUrl: 'https://kentei.tokyo-cci.or.jp/houmu/',
   topics: [
     '民法（契約・不法行為）',
     '商法・会社法の基礎',

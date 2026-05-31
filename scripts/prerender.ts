@@ -41,7 +41,7 @@ const moduleListHtml = modules.map(m =>
   `<li style="margin-bottom:12px"><a href="${BASE}/${m.id}/" style="color:#2563eb;font-weight:600;text-decoration:none">${m.title}</a><br><span style="color:#555;font-size:0.9rem">${m.description}</span></li>`
 ).join('\n');
 
-const rootStaticContent = `<article id="static-fallback" style="font-family:sans-serif;line-height:1.7;max-width:860px;margin:0 auto;padding:24px 16px">
+const rootStaticContent = `<div style="background:#eff6ff;border-bottom:1px solid #bfdbfe;padding:10px 16px;font-size:0.88rem;text-align:center;margin-bottom:16px;border-radius:6px;max-width:860px;margin-left:auto;margin-right:auto"><a href="https://study-apps.com/" style="color:#1e3a8a;text-decoration:none;font-weight:600">← study-apps.com 学習サイト集トップへ</a></div><article id="static-fallback" style="font-family:sans-serif;line-height:1.7;max-width:860px;margin:0 auto;padding:24px 16px">
   <h1 style="font-size:1.8rem;font-weight:700;border-bottom:2px solid #2563eb;padding-bottom:8px;margin-bottom:16px">ビジネス実務法務検定 3級 学習リファレンス</h1>
   <p style="color:#444;margin-bottom:24px">ビジネス実務法務検定3級の合格を目指す学習支援サイトです。民法・商法・会社法・労働法など企業取引に必要な法律知識をわかりやすく解説しています。</p>
   <h2 style="font-size:1.3rem;font-weight:700;margin-bottom:12px">学習モジュール一覧</h2>
@@ -58,14 +58,28 @@ ${moduleListHtml}
 
 let rootIndexHtml = templateHtml.replace('<div id="root"></div>', `<div id="root">${rootStaticContent}</div>`);
 rootIndexHtml = rootIndexHtml.replace('</head>', `${robotsMeta}\n  </head>`);
-const homeJsonLd = JSON.stringify({
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  'name': 'ビジネス実務法務検定 3級 学習リファレンス',
-  'url': `${BASE_URL}/`,
-  'description': 'ビジネス実務法務検定3級の合格を目指す学習リファレンス。民法・商法・会社法・労働法など企業取引に必要な法律知識をわかりやすく解説。',
-  'inLanguage': 'ja'
-});
+const homeJsonLd = JSON.stringify([
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    'name': 'ビジネス実務法務検定 3級 学習リファレンス',
+    'url': `${BASE_URL}/`,
+    'description': 'ビジネス実務法務検定3級の合格を目指す学習リファレンス。民法・商法・会社法・労働法など企業取引に必要な法律知識をわかりやすく解説。',
+    'inLanguage': 'ja',
+    'potentialAction': {
+      '@type': 'SearchAction',
+      'target': `${BASE_URL}/?q={search_term_string}`,
+      'query-input': 'required name=search_term_string'
+    }
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    'name': 'study-apps.com',
+    'url': 'https://study-apps.com',
+    'description': '資格試験学習支援サイト集。統計検定・ビジネス実務法務検定・メンタルヘルスマネジメント検定などの学習リファレンスを提供。'
+  }
+]);
 rootIndexHtml = rootIndexHtml.replace('</head>', `<script type="application/ld+json">${homeJsonLd}</script>\n  </head>`);
 fs.writeFileSync(INDEX_HTML_PATH, rootIndexHtml);
 
@@ -119,7 +133,7 @@ for (let i = 0; i < modules.length; i++) {
   const prevLink = prevMod ? `<a href="${BASE}/${prevMod.id}/" style="color:#2563eb;text-decoration:none">← ${prevMod.title}</a>` : '';
   const nextLink = nextMod ? `<a href="${BASE}/${nextMod.id}/" style="color:#2563eb;text-decoration:none">${nextMod.title} →</a>` : '';
 
-  const seoContentHtml = `<article id="static-fallback" style="font-family:sans-serif;line-height:1.7;max-width:860px;margin:0 auto;padding:24px 16px">
+  const seoContentHtml = `<div style="background:#eff6ff;border-bottom:1px solid #bfdbfe;padding:10px 16px;font-size:0.88rem;text-align:center;margin-bottom:16px;border-radius:6px;max-width:860px;margin-left:auto;margin-right:auto"><a href="https://study-apps.com/" style="color:#1e3a8a;text-decoration:none;font-weight:600">← study-apps.com 学習サイト集トップへ</a></div><article id="static-fallback" style="font-family:sans-serif;line-height:1.7;max-width:860px;margin:0 auto;padding:24px 16px">
   <nav style="margin-bottom:16px"><a href="${BASE}/" style="color:#2563eb;text-decoration:none">← 学習リファレンス ホーム</a></nav>
   <h1 style="font-size:1.6rem;font-weight:700;border-bottom:2px solid #2563eb;padding-bottom:8px;margin-bottom:12px">${mod.title}</h1>
   <p style="color:#555;margin-bottom:20px;font-size:1.05rem">${mod.description}</p>
@@ -209,7 +223,7 @@ const staticPageContents: Record<string, { title: string; description: string; b
   glossary: {
     title: '用語集',
     description: 'ビジネス実務法務検定3級の頻出用語を一覧で解説。契約・不法行為・株式会社・知的財産権・労働契約など試験に出る専門用語を網羅。',
-    bodyHtml: `<article id="static-fallback" style="font-family:sans-serif;line-height:1.7;max-width:860px;margin:0 auto;padding:24px 16px">
+    bodyHtml: `<div style="background:#eff6ff;border-bottom:1px solid #bfdbfe;padding:10px 16px;font-size:0.88rem;text-align:center;margin-bottom:16px;border-radius:6px;max-width:860px;margin-left:auto;margin-right:auto"><a href="https://study-apps.com/" style="color:#1e3a8a;text-decoration:none;font-weight:600">← study-apps.com 学習サイト集トップへ</a></div><article id="static-fallback" style="font-family:sans-serif;line-height:1.7;max-width:860px;margin:0 auto;padding:24px 16px">
   <nav style="margin-bottom:16px"><a href="${BASE}/" style="color:#2563eb;text-decoration:none">← ホームへ戻る</a></nav>
   <h1 style="font-size:1.6rem;font-weight:700;border-bottom:2px solid #2563eb;padding-bottom:8px;margin-bottom:20px">用語集</h1>
   <p style="color:#555;margin-bottom:24px">ビジネス実務法務検定3級の頻出用語を解説します。全${glossaryTerms.length}用語を難易度別に表示しています。</p>
@@ -231,7 +245,7 @@ ${glossaryTermsHtml}
         { '@type': 'Question', 'name': '不法行為の成立要件は何ですか？', 'acceptedAnswer': { '@type': 'Answer', 'text': '不法行為（民法第709条）の成立要件は、①故意または過失、②権利・利益の侵害、③損害の発生、④侵害行為と損害の因果関係です。' } },
       ]
     },
-    bodyHtml: `<article id="static-fallback" style="font-family:sans-serif;line-height:1.7;max-width:860px;margin:0 auto;padding:24px 16px">
+    bodyHtml: `<div style="background:#eff6ff;border-bottom:1px solid #bfdbfe;padding:10px 16px;font-size:0.88rem;text-align:center;margin-bottom:16px;border-radius:6px;max-width:860px;margin-left:auto;margin-right:auto"><a href="https://study-apps.com/" style="color:#1e3a8a;text-decoration:none;font-weight:600">← study-apps.com 学習サイト集トップへ</a></div><article id="static-fallback" style="font-family:sans-serif;line-height:1.7;max-width:860px;margin:0 auto;padding:24px 16px">
   <nav style="margin-bottom:16px"><a href="${BASE}/" style="color:#2563eb;text-decoration:none">← ホームへ戻る</a></nav>
   <h1 style="font-size:1.6rem;font-weight:700;border-bottom:2px solid #2563eb;padding-bottom:8px;margin-bottom:20px">試験ガイド</h1>
   <p style="color:#555;margin-bottom:24px">ビジネス実務法務検定3級の試験概要を解説します。</p>
@@ -258,14 +272,14 @@ ${glossaryTermsHtml}
       <tr style="background:#f9fafb"><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:700;color:#d97706">仲裁 vs 調停</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#444">仲裁は当事者拘束力あり・調停は合意が前提で強制力なし</td></tr>
     </tbody>
   </table>
-  <p style="margin-top:24px;font-size:0.85rem;color:#888">※最新情報は必ず東京商工会議所の公式サイトでご確認ください。</p>
+  <p style="margin-top:24px;font-size:0.85rem;color:#888">※最新情報は必ず<a href="https://kentei.tokyo-cci.or.jp/houmu/" style="color:#2563eb" target="_blank" rel="noopener noreferrer">東京商工会議所の公式サイト</a>でご確認ください。</p>
   <p style="margin-top:16px"><a href="${BASE}/" style="color:#2563eb">← ホームへ戻る</a></p>
 </article>`
   },
   about: {
     title: 'サイトについて',
     description: 'ビジネス実務法務検定3級 学習リファレンスについて。サイトの目的・コンテンツ構成・利用方法を説明します。',
-    bodyHtml: `<article id="static-fallback" style="font-family:sans-serif;line-height:1.7;max-width:860px;margin:0 auto;padding:24px 16px">
+    bodyHtml: `<div style="background:#eff6ff;border-bottom:1px solid #bfdbfe;padding:10px 16px;font-size:0.88rem;text-align:center;margin-bottom:16px;border-radius:6px;max-width:860px;margin-left:auto;margin-right:auto"><a href="https://study-apps.com/" style="color:#1e3a8a;text-decoration:none;font-weight:600">← study-apps.com 学習サイト集トップへ</a></div><article id="static-fallback" style="font-family:sans-serif;line-height:1.7;max-width:860px;margin:0 auto;padding:24px 16px">
   <nav style="margin-bottom:16px"><a href="${BASE}/" style="color:#2563eb;text-decoration:none">← ホームへ戻る</a></nav>
   <h1 style="font-size:1.6rem;font-weight:700;border-bottom:2px solid #2563eb;padding-bottom:8px;margin-bottom:20px">サイトについて</h1>
   <section style="margin-bottom:24px">
@@ -292,7 +306,7 @@ ${glossaryTermsHtml}
   privacy: {
     title: 'プライバシーポリシー',
     description: 'ビジネス実務法務検定3級 学習リファレンスのプライバシーポリシー。個人情報の取り扱いについて説明します。',
-    bodyHtml: `<article id="static-fallback" style="font-family:sans-serif;line-height:1.7;max-width:860px;margin:0 auto;padding:24px 16px">
+    bodyHtml: `<div style="background:#eff6ff;border-bottom:1px solid #bfdbfe;padding:10px 16px;font-size:0.88rem;text-align:center;margin-bottom:16px;border-radius:6px;max-width:860px;margin-left:auto;margin-right:auto"><a href="https://study-apps.com/" style="color:#1e3a8a;text-decoration:none;font-weight:600">← study-apps.com 学習サイト集トップへ</a></div><article id="static-fallback" style="font-family:sans-serif;line-height:1.7;max-width:860px;margin:0 auto;padding:24px 16px">
   <nav style="margin-bottom:16px"><a href="${BASE}/" style="color:#2563eb;text-decoration:none">← ホームへ戻る</a></nav>
   <h1 style="font-size:1.6rem;font-weight:700;border-bottom:2px solid #2563eb;padding-bottom:8px;margin-bottom:8px">プライバシーポリシー</h1>
   <p style="color:#888;font-size:0.9rem;margin-bottom:24px">最終更新：2026年5月</p>
@@ -346,9 +360,16 @@ for (const [page, config] of Object.entries(staticPageContents)) {
   pageHtml = pageHtml.replace('</head>', `${robotsMeta}\n  </head>`);
   pageHtml = pageHtml.replace('<div id="root"></div>', `<div id="root">${config.bodyHtml}</div>`);
 
-  if (config.jsonLd) {
-    pageHtml = pageHtml.replace('</head>', `<script type="application/ld+json">${JSON.stringify(config.jsonLd)}</script>\n  </head>`);
-  }
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    'itemListElement': [
+      { '@type': 'ListItem', 'position': 1, 'name': 'ホーム', 'item': `${BASE_URL}/` },
+      { '@type': 'ListItem', 'position': 2, 'name': config.title, 'item': pageUrl }
+    ]
+  };
+  const allJsonLd = config.jsonLd ? [breadcrumb, config.jsonLd] : [breadcrumb];
+  pageHtml = pageHtml.replace('</head>', `<script type="application/ld+json">${JSON.stringify(allJsonLd)}</script>\n  </head>`);
 
   fs.writeFileSync(path.join(pageDir, 'index.html'), pageHtml);
   generatedCount++;
