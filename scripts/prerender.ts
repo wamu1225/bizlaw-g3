@@ -3,6 +3,7 @@ import * as path from 'path';
 import sharp from 'sharp';
 import { modules } from '../src/data/modules';
 import { glossary } from '../src/data/glossary';
+import { buildUsecaseHtml } from '../src/data/usecaseGuide';
 
 const DIST_DIR = path.resolve(process.cwd(), 'dist');
 const INDEX_HTML_PATH = path.join(DIST_DIR, 'index.html');
@@ -51,6 +52,7 @@ ${moduleListHtml}
   <nav style="margin-top:32px;border-top:1px solid #ddd;padding-top:16px;display:flex;gap:16px">
     <a href="${BASE}/glossary/" style="color:#2563eb">用語集</a>
     <a href="${BASE}/guide/" style="color:#2563eb">試験ガイド</a>
+    <a href="${BASE}/usecase/" style="color:#2563eb">法務逆引きガイド</a>
     <a href="${BASE}/about/" style="color:#2563eb">サイトについて</a>
   </nav>
   <p style="font-size:0.8rem;color:#888;margin-top:20px;border-top:1px solid #eee;padding-top:12px">※本サイトは個人による学習支援サイトであり、東京商工会議所の公式サイトではありません。</p>
@@ -275,6 +277,11 @@ ${glossaryTermsHtml}
   <p style="margin-top:24px;font-size:0.85rem;color:#888">※最新情報は必ず<a href="https://kentei.tokyo-cci.or.jp/houmu/" style="color:#2563eb" target="_blank" rel="noopener noreferrer">東京商工会議所の公式サイト</a>でご確認ください。</p>
   <p style="margin-top:16px"><a href="${BASE}/" style="color:#2563eb">← ホームへ戻る</a></p>
 </article>`
+  },
+  usecase: {
+    title: '場面から引く 法務逆引きガイド',
+    description: 'ビジネスの場面から、契約・債権・会社法・労働法・知的財産・倒産など関係する法務論点を逆引きできる早見表。学習の道しるべとして該当モジュールへすばやくたどれます。',
+    bodyHtml: buildUsecaseHtml(BASE)
   },
   about: {
     title: 'サイトについて',
