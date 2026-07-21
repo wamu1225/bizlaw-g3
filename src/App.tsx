@@ -805,6 +805,7 @@ function App() {
         <div className="footer-links">
           <button className="footer-link" onClick={() => switchView('about')}>サイトについて</button>
           <button className="footer-link" onClick={() => switchView('privacy')}>プライバシーポリシー</button>
+          <a className="footer-link" href="https://study-apps.com/editorial-policy/">編集方針</a>
         </div>
         <p className="footer-copy">© 2026 ビジネス実務法務検定 3級 学習リファレンス</p>
       </footer>
