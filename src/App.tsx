@@ -66,7 +66,7 @@ function App() {
     setRqResults([]);
     setRqDone(false);
     setView('randomquiz');
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
 
   const rqHandleSelect = (idx: number) => {
@@ -85,7 +85,7 @@ function App() {
       setRqIdx(rqIdx + 1);
       setRqSelected(null);
       setRqIsCorrect(null);
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: 'instant' });
     } else {
       setRqResults(newResults);
       setRqDone(true);
@@ -94,7 +94,7 @@ function App() {
       const next = { ...loadProgress(), 'random-quiz': entry };
       saveProgress(next);
       setProgress(next);
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }
   };
 
@@ -111,7 +111,7 @@ function App() {
       setView('dashboard');
     }
     setQuizCompleted(false);
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
 
   const switchView = useCallback((newView: View) => {
@@ -120,7 +120,7 @@ function App() {
     const basePath = window.location.pathname.startsWith('/bizlaw-g3/') ? '/bizlaw-g3' : '';
     const newPath = newView === 'dashboard' ? `${basePath}/` : `${basePath}/${newView}/`;
     window.history.pushState(null, '', newPath);
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
 
   const handleResetProgress = useCallback(() => {
