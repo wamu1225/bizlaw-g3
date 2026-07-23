@@ -95,7 +95,7 @@ export const ExamGuide: React.FC = () => {
             },
             {
               label: '商法グループ', color: '#f0fdf4', border: '#bbf7d0', text: '#15803d',
-              laws: ['商法', '会社法', '手形法', '小切手法', '会社更正法'],
+              laws: ['商法', '会社法', '手形法', '小切手法', '会社更生法'],
               note: '株主総会・取締役の義務が頻出',
             },
             {

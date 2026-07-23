@@ -447,7 +447,7 @@ export const glossary: Record<string, Term> = {
   'bankruptcy': {
     id: 'bankruptcy',
     term: '破産',
-    explanation: '支払不能・債務超過の場合に申し立てられる清算型の倒産手続き（破産法）。裁判所が選任した破産管財人が財産を換価・配当します。法人の場合は破産手続き終了で法人格が消滅。再建型（民事再生・会社更正）と異なり、会社はたたむ。',
+    explanation: '支払不能・債務超過の場合に申し立てられる清算型の倒産手続き（破産法）。裁判所が選任した破産管財人が財産を換価・配当します。法人の場合は破産手続き終了で法人格が消滅。再建型（民事再生・会社更生）と異なり、会社はたたむ。',
     level: '中級',
     scope: '3級',
     relatedTerms: ['civil-rehabilitation', 'corporate-reorganization', 'separate-right'],
@@ -462,8 +462,8 @@ export const glossary: Record<string, Term> = {
   },
   'corporate-reorganization': {
     id: 'corporate-reorganization',
-    term: '会社更正',
-    explanation: '現経営者を排除し、更生管財人が管理・経営する再建型の倒産手続き（会社更正法）。株式会社のみが利用可能。担保権者（抵当権者等）も手続きに取り込まれる（破産・民事再生の別除権とは異なる）点が特徴。大企業向け。',
+    term: '会社更生',
+    explanation: '現経営者を排除し、更生管財人が管理・経営する再建型の倒産手続き（会社更生法）。株式会社のみが利用可能。担保権者（抵当権者等）も手続きに取り込まれる（破産・民事再生の別除権とは異なる）点が特徴。大企業向け。',
     level: '中級',
     scope: '3級',
     relatedTerms: ['bankruptcy', 'civil-rehabilitation'],
@@ -471,7 +471,7 @@ export const glossary: Record<string, Term> = {
   'separate-right': {
     id: 'separate-right',
     term: '別除権',
-    explanation: '破産手続き開始前から担保権（抵当権・質権など）を持っていた債権者が、破産手続きとは別に独立して担保権を実行できる権利（破産法）。担保権者は「優先的に回収できる立場」として特別扱いされます。会社更正では担保権者も手続きに取り込まれる点が異なります。',
+    explanation: '破産手続き開始前から担保権（抵当権・質権など）を持っていた債権者が、破産手続きとは別に独立して担保権を実行できる権利（破産法）。担保権者は「優先的に回収できる立場」として特別扱いされます。会社更生では担保権者も手続きに取り込まれる点が異なります。',
     level: '上級',
     scope: '3級',
     relatedTerms: ['bankruptcy', 'mortgage'],
