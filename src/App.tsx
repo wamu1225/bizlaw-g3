@@ -176,7 +176,7 @@ function App() {
 
   const parseInlineContent = useCallback((text: string): React.ReactNode => {
     function parseInline(t: string): React.ReactNode {
-      const regex = /(\*\*[\s\S]*?\*\*|\[\[term:.*?\]\][\s\S]*?\[\[\/term\]\])/g;
+      const regex = /(\*\*[\s\S]*?\*\*|\[\[term:.*?\]\][\s\S]*?\[\[\/term\]\]|\[\[org-structure\]\])/g;
       const parts = t.split(regex);
       return (
         <>
@@ -189,6 +189,46 @@ function App() {
               const contentMatch = part.match(/\]\]([\s\S]*?)\[\[\/term\]\]/);
               if (idMatch && contentMatch) return <TermText key={key} termId={idMatch[1]} onNavigate={updateModuleId} renderText={parseInline}>{contentMatch[1]}</TermText>;
             }
+            if (part === '[[org-structure]]') return (
+              <figure key={key} className="bl-figure">
+                <svg viewBox="0 0 340 254" role="img" aria-label="株式会社の機関設計：株主総会が取締役・監査役を選任し、取締役会が代表取締役を選定、監査役が取締役の職務執行を監査する関係図" className="bl-fig-svg">
+                  <rect x={95} y={14} width={150} height={42} rx={6} fill="var(--primary-light)" stroke="var(--primary)" strokeWidth={1.6} />
+                  <text x={170} y={34} textAnchor="middle" fontSize={13} fontWeight={700} fill="var(--primary-text)">株主総会</text>
+                  <text x={170} y={49} textAnchor="middle" fontSize={9} fill="var(--text-muted)">（最高意思決定機関）</text>
+
+                  <line x1={170} y1={56} x2={170} y2={76} stroke="#94a3b8" strokeWidth={1.4} />
+                  <line x1={91} y1={76} x2={265} y2={76} stroke="#94a3b8" strokeWidth={1.4} />
+                  <line x1={91} y1={76} x2={91} y2={108} stroke="#94a3b8" strokeWidth={1.4} />
+                  <line x1={265} y1={76} x2={265} y2={108} stroke="#94a3b8" strokeWidth={1.4} />
+                  <polygon points="91,112 87,105 95,105" fill="#94a3b8" />
+                  <polygon points="265,112 261,105 269,105" fill="#94a3b8" />
+                  <text x={170} y={70} textAnchor="middle" fontSize={9} fontWeight={700} fill="var(--text-muted)">選任・解任</text>
+
+                  <rect x={16} y={112} width={150} height={42} rx={6} fill="var(--bg-warm)" stroke="var(--border-medium)" strokeWidth={1.4} />
+                  <text x={91} y={130} textAnchor="middle" fontSize={12.5} fontWeight={700} fill="var(--text)">取締役会</text>
+                  <text x={91} y={145} textAnchor="middle" fontSize={8} fill="var(--text-muted)">（業務執行の決定・監督）</text>
+
+                  <rect x={190} y={112} width={150} height={42} rx={6} fill="var(--bg-warm)" stroke="var(--border-medium)" strokeWidth={1.4} />
+                  <text x={265} y={130} textAnchor="middle" fontSize={12.5} fontWeight={700} fill="var(--text)">監査役（会）</text>
+                  <text x={265} y={145} textAnchor="middle" fontSize={8} fill="var(--text-muted)">（取締役の職務執行を監査）</text>
+
+                  <line x1={91} y1={154} x2={91} y2={198} stroke="#94a3b8" strokeWidth={1.4} />
+                  <polygon points="91,202 87,195 95,195" fill="#94a3b8" />
+                  <text x={99} y={180} fontSize={9} fontWeight={700} fill="var(--text-muted)">選定・解職</text>
+
+                  <rect x={16} y={202} width={150} height={42} rx={6} fill="var(--primary-light)" stroke="var(--primary)" strokeWidth={1.6} />
+                  <text x={91} y={220} textAnchor="middle" fontSize={12.5} fontWeight={700} fill="var(--primary-text)">代表取締役</text>
+                  <text x={91} y={235} textAnchor="middle" fontSize={8} fill="var(--text-muted)">（会社を代表し業務執行）</text>
+
+                  <line x1={190} y1={133} x2={172} y2={133} stroke="var(--accent)" strokeWidth={1.4} strokeDasharray="3 2" />
+                  <polygon points="168,133 175,129 175,137" fill="var(--accent)" />
+                  <text x={179} y={123} textAnchor="middle" fontSize={7.5} fontWeight={700} fill="var(--accent)">監査</text>
+                </svg>
+                <figcaption className="bl-fig-cap">
+                  株式会社の機関設計。<strong>株主総会</strong>が取締役・監査役を選任・解任し、<strong>取締役会</strong>がその中から<strong>代表取締役</strong>を選定して会社の代表・業務執行を委ねる。<strong>監査役（会）</strong>は株主総会から独立した立場で選任され、取締役の職務執行が適法かどうかを監査する（点線）。「誰が誰を選ぶか」と「誰が誰を監査するか」の向きを混同しないことが試験のポイント。
+                </figcaption>
+              </figure>
+            );
             return <span key={key} style={{ whiteSpace: 'pre-wrap' }}>{part}</span>;
           })}
         </>

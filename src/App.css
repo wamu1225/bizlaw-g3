@@ -527,6 +527,25 @@
   margin: 2rem 0;
 }
 
+.bl-figure {
+  margin: 1.25rem 0;
+  padding: 0;
+}
+.bl-fig-svg {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+.bl-fig-cap {
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  text-align: left;
+}
+
 /* ── Chapter & Module ────────────────────────────── */
 
 .module-desc {
