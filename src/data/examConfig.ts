@@ -6,10 +6,11 @@ export const EXAM_CONFIG = {
   organizer: '東京商工会議所',
   targetGrade: '3級',
   duration: 90,                        // 試験時間（分）
-  questionCount: '50問',              // 出題数
   passingScore: 70,                   // 合格基準（点）
   passingScoreLabel: '100点満点中70点以上',
-  format: 'IBT / CBT方式（五答択一式）',
+  format: 'IBT / CBT方式（多肢選択式）',
+  examFee: '7,700円（税込。CBT方式はテストセンター利用料2,200円を含む）',
+  passRateNote: '合格率は年度・回により変動（東京商工会議所の公式データでは第57回57.6%・第58回38.3%・2024年度43.5%・2025年度47.6%）',
   schedule: '随時（IBT）・CBT会場により異なる',
   description: '民法・商法・会社法など企業取引に必要な法律知識の基礎を問う検定',
   officialUrl: 'https://kentei.tokyo-cci.or.jp/houmu/',

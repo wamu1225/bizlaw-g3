@@ -37,9 +37,9 @@ export const ExamGuide: React.FC = () => {
       {/* ── 試験概要バッジ ── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '0.75rem', marginBottom: '2.5rem' }}>
         <InfoBadge label="試験時間" value="90分" />
-        <InfoBadge label="出題数" value="50問" />
+        <InfoBadge label="出題形式" value="多肢選択式" />
         <InfoBadge label="合格基準" value="70点以上" highlight />
-        <InfoBadge label="合格率" value="約60〜80%" />
+        <InfoBadge label="合格率" value="35〜58%（年度差大）" />
         <InfoBadge label="試験形式" value="IBT / CBT" />
         <InfoBadge label="受験資格" value="制限なし" />
       </div>
@@ -61,11 +61,11 @@ export const ExamGuide: React.FC = () => {
                 ['正式名称', EXAM_CONFIG.name],
                 ['合格称号', 'ビジネス法務リーダー®'],
                 ['試験方式', 'IBT（自宅・会社） / CBT（テストセンター）'],
-                ['出題形式', '五答択一式 50問（各2点 = 100点満点）'],
+                ['出題形式', '多肢選択式（100点満点）'],
                 ['試験時間', `${EXAM_CONFIG.duration}分`],
                 ['合格基準', EXAM_CONFIG.passingScoreLabel + '（絶対評価）'],
                 ['実施時期', 'IBTは随時受験可能。CBTは会場スケジュールによる'],
-                ['受験料', '約5,500円（税込）'],
+                ['受験料', EXAM_CONFIG.examFee],
               ].map(([item, detail], i) => (
                 <tr key={i} style={{ borderBottom: '1px solid #e2e8f0', background: i % 2 === 0 ? '#fff' : '#f8fafc' }}>
                   <td style={{ padding: '0.75rem', fontWeight: 700 }}>{item}</td>
@@ -184,7 +184,7 @@ export const ExamGuide: React.FC = () => {
               border: '#fed7aa',
               accent: '#c2410c',
               items: [
-                '予想模擬試験で90分・50問の時間配分を体感する',
+                '予想模擬試験で90分の時間配分を体感する',
                 'IBT対応のオンライン演習で、PC画面での長文読解と選択肢操作に慣れる',
                 '翔泳社「IBT対応問題集」など、デジタル形式の演習ツールを活用する',
                 '余剰時間は弱点分野（特に知財保護期間の数値）の補強に充てる',
