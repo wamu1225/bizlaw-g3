@@ -10,21 +10,50 @@ const INDEX_HTML_PATH = path.join(DIST_DIR, 'index.html');
 const BASE_URL = 'https://study-apps.com/bizlaw-g3';
 const BASE = '/bizlaw-g3';
 
-function stripMarkdown(text: string): string {
-  return text
-    .replace(/\[\[.*?\]\]/g, '')
-    .replace(/^#{1,6}\s+/gm, '')
-    .replace(/\*\*(.*?)\*\*/g, '$1')
-    .replace(/\*(.*?)\*/g, '$1')
-    .replace(/^[-*+]\s+/gm, '')
-    .replace(/^\d+\.\s+/gm, '')
-    .replace(/^\|.*\|$/gm, '')
-    .replace(/^[-|:\s]+$/gm, '')
-    .replace(/^---+$/gm, '')
-    .replace(/[\u{1F300}-\u{1FFFF}]/gu, '')
-    .replace(/[💡🎯⚠️✅❌🔴🟡🟢]/g, '')
-    .replace(/\n{3,}/g, '\n\n')
-    .trim();
+const escHtml = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const inlineHtml = (s: string) => escHtml(s.replace(/\[\[term:.*?\]\]|\[\[\/term\]\]/g, '')).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+
+// 表・見出し・リストを静的HTMLへ変換（旧stripMarkdownは表を丸ごと削除していたため新設。
+// 本サイトはApp.tsx側にコールアウト専用スタイルが無いため💡⚠️等は地の文としてそのまま出す）
+function mdToHtml(content: string): string {
+  const lines = content.split('\n');
+  const out: string[] = [];
+  let i = 0;
+  while (i < lines.length) {
+    const t = lines[i].trim();
+    if (t === '' || /^\[\[.*?\]\]$/.test(t)) { i++; continue; }
+    if (/^---+$/.test(t)) { out.push('<hr style="border:0;border-top:1px solid #ddd;margin:18px 0">'); i++; continue; }
+    if (t.startsWith('#### ')) { out.push(`<h4 style="font-size:1rem;margin:16px 0 6px">${inlineHtml(t.slice(5))}</h4>`); i++; continue; }
+    if (t.startsWith('### ')) { out.push(`<h3 style="font-size:1.05rem;margin:18px 0 6px">${inlineHtml(t.slice(4))}</h3>`); i++; continue; }
+    if (t.startsWith('## ')) { out.push(`<h2 style="font-size:1.2rem;margin:22px 0 8px;border-left:4px solid #2563eb;padding-left:10px">${inlineHtml(t.slice(3))}</h2>`); i++; continue; }
+    if (t.startsWith('|')) {
+      const rows: string[] = [];
+      while (i < lines.length && lines[i].trim().startsWith('|')) { rows.push(lines[i].trim()); i++; }
+      const parsed = rows.map((r) => r.replace(/^\||\|$/g, '').split('|').map((c) => c.trim()))
+        .filter((cells) => !cells.every((c) => /^:?-+:?$/.test(c) || c === ''));
+      if (parsed.length) {
+        const [head, ...body] = parsed;
+        const th = head.map((c) => `<th style="text-align:left;padding:6px 10px;background:#eff6ff;border-bottom:2px solid #bfdbfe">${inlineHtml(c)}</th>`).join('');
+        const trs = body.map((cells) => '<tr>' + cells.map((c) => `<td style="padding:6px 10px;border-bottom:1px solid #e5e7eb;vertical-align:top">${inlineHtml(c)}</td>`).join('') + '</tr>').join('');
+        out.push(`<div style="overflow-x:auto;margin:14px 0"><table style="border-collapse:collapse;width:100%;font-size:0.92rem"><thead><tr>${th}</tr></thead><tbody>${trs}</tbody></table></div>`);
+      }
+      continue;
+    }
+    if (/^\d+\.\s/.test(t)) {
+      const items: string[] = [];
+      while (i < lines.length && /^\d+\.\s/.test(lines[i].trim())) { items.push(lines[i].trim().replace(/^\d+\.\s/, '')); i++; }
+      out.push('<ol style="padding-left:20px">' + items.map((it) => `<li>${inlineHtml(it)}</li>`).join('') + '</ol>');
+      continue;
+    }
+    if (/^[-*]\s/.test(t)) {
+      const items: string[] = [];
+      while (i < lines.length && /^[-*]\s/.test(lines[i].trim())) { items.push(lines[i].trim().replace(/^[-*]\s/, '')); i++; }
+      out.push('<ul style="padding-left:20px">' + items.map((it) => `<li>${inlineHtml(it)}</li>`).join('') + '</ul>');
+      continue;
+    }
+    out.push(`<p style="margin:0 0 12px">${inlineHtml(t)}</p>`); i++;
+  }
+  return out.join('\n');
 }
 
 console.log('--- Starting Static Site Generation (SSG) Pre-rendering ---');
@@ -101,7 +130,7 @@ for (let i = 0; i < modules.length; i++) {
     fs.mkdirSync(modDir, { recursive: true });
   }
 
-  const seoText = stripMarkdown(mod.content).slice(0, 6000);
+  const seoTextHtml = mdToHtml(mod.content);
   const pageUrl = `${BASE_URL}/${mod.id}/`;
   const pageTitle = `${mod.title} | ビジネス実務法務検定 3級 学習リファレンス`;
 
@@ -139,7 +168,7 @@ for (let i = 0; i < modules.length; i++) {
   <nav style="margin-bottom:16px"><a href="${BASE}/" style="color:#2563eb;text-decoration:none">← 学習リファレンス ホーム</a></nav>
   <h1 style="font-size:1.6rem;font-weight:700;border-bottom:2px solid #2563eb;padding-bottom:8px;margin-bottom:12px">${mod.title}</h1>
   <p style="color:#555;margin-bottom:20px;font-size:1.05rem">${mod.description}</p>
-  <div style="color:#333">${seoText}</div>
+  <div style="color:#333">${seoTextHtml}</div>
   ${quizSnippetHtml}
   ${relatedHtml}
   <nav style="margin-top:32px;border-top:1px solid #ddd;padding-top:16px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px">
