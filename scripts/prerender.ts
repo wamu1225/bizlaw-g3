@@ -13,6 +13,134 @@ const BASE = '/bizlaw-g3';
 const escHtml = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const inlineHtml = (s: string) => escHtml(s.replace(/\[\[term:.*?\]\]|\[\[\/term\]\]/g, '')).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
 
+// App.tsx内のJSX図（[[key]]でReact専用に描画されるSVG図解）を静的HTMLでも表示する（2026-07-30・O-2-6続報）。
+// これまで行ごと除去され図が1つも無かった。App.tsxのSVG座標をそのまま複製し、既存CSS（var(--...)）を共有する。
+const FIGURES: Record<string, string> = {
+  'org-structure': `<figure class="bl-figure">
+  <svg viewBox="0 0 340 254" role="img" aria-label="株式会社の機関設計：株主総会が取締役・監査役を選任し、取締役会が代表取締役を選定、監査役が取締役の職務執行を監査する関係図" class="bl-fig-svg">
+    <rect x="95" y="14" width="150" height="42" rx="6" fill="var(--primary-light)" stroke="var(--primary)" stroke-width="1.6" />
+    <text x="170" y="34" text-anchor="middle" font-size="13" font-weight="700" fill="var(--primary-text)">株主総会</text>
+    <text x="170" y="49" text-anchor="middle" font-size="9" fill="var(--text-muted)">（最高意思決定機関）</text>
+    <line x1="170" y1="56" x2="170" y2="76" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="91" y1="76" x2="265" y2="76" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="91" y1="76" x2="91" y2="108" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="265" y1="76" x2="265" y2="108" stroke="#94a3b8" stroke-width="1.4" />
+    <polygon points="91,112 87,105 95,105" fill="#94a3b8" />
+    <polygon points="265,112 261,105 269,105" fill="#94a3b8" />
+    <text x="170" y="70" text-anchor="middle" font-size="9" font-weight="700" fill="var(--text-muted)">取締役・監査役を選任</text>
+    <rect x="16" y="112" width="150" height="42" rx="6" fill="var(--bg-warm)" stroke="var(--border-medium)" stroke-width="1.4" />
+    <text x="91" y="130" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--text)">取締役会</text>
+    <text x="91" y="145" text-anchor="middle" font-size="8" fill="var(--text-muted)">（業務執行の決定・監督）</text>
+    <rect x="190" y="112" width="150" height="42" rx="6" fill="var(--bg-warm)" stroke="var(--border-medium)" stroke-width="1.4" />
+    <text x="265" y="130" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--text)">監査役（会）</text>
+    <text x="265" y="145" text-anchor="middle" font-size="8" fill="var(--text-muted)">（取締役の職務執行を監査）</text>
+    <line x1="91" y1="154" x2="91" y2="198" stroke="#94a3b8" stroke-width="1.4" />
+    <polygon points="91,202 87,195 95,195" fill="#94a3b8" />
+    <text x="99" y="180" font-size="9" font-weight="700" fill="var(--text-muted)">選定・解職</text>
+    <rect x="16" y="202" width="150" height="42" rx="6" fill="var(--primary-light)" stroke="var(--primary)" stroke-width="1.6" />
+    <text x="91" y="220" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--primary-text)">代表取締役</text>
+    <text x="91" y="235" text-anchor="middle" font-size="8" fill="var(--text-muted)">（会社を代表し業務執行）</text>
+    <line x1="190" y1="133" x2="172" y2="133" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="3 2" />
+    <polygon points="168,133 175,129 175,137" fill="var(--accent)" />
+    <text x="179" y="123" text-anchor="middle" font-size="7.5" font-weight="700" fill="var(--accent)">監査</text>
+  </svg>
+  <figcaption class="bl-fig-cap">株式会社の機関設計。<strong>株主総会</strong>が取締役・監査役を選任・解任し、<strong>取締役会</strong>がその中から<strong>代表取締役</strong>を選定して会社の代表・業務執行を委ねる。<strong>監査役（会）</strong>は株主総会から独立した立場で選任され、取締役の職務執行が適法かどうかを監査する（点線）。「誰が誰を選ぶか」と「誰が誰を監査するか」の向きを混同しないことが試験のポイント。</figcaption>
+</figure>`,
+  'dispute-resolution': `<figure class="bl-figure">
+  <svg viewBox="0 0 380 250" role="img" aria-label="紛争解決の方法の分岐：訴訟とADR、ADRはさらに調停と仲裁に分かれる" class="bl-fig-svg">
+    <rect x="95" y="14" width="150" height="38" rx="6" fill="var(--primary-light)" stroke="var(--primary)" stroke-width="1.6" />
+    <text x="170" y="38" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--primary-text)">紛争解決の方法</text>
+    <line x1="170" y1="52" x2="170" y2="72" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="91" y1="72" x2="265" y2="72" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="91" y1="72" x2="91" y2="104" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="265" y1="72" x2="265" y2="104" stroke="#94a3b8" stroke-width="1.4" />
+    <polygon points="91,108 87,101 95,101" fill="#94a3b8" />
+    <polygon points="265,108 261,101 269,101" fill="#94a3b8" />
+    <rect x="16" y="108" width="150" height="42" rx="6" fill="var(--bg-warm)" stroke="var(--border-medium)" stroke-width="1.4" />
+    <text x="91" y="126" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--text)">訴訟</text>
+    <text x="91" y="141" text-anchor="middle" font-size="7.5" fill="var(--text-muted)">（強制執行可・公開・三審制）</text>
+    <rect x="190" y="108" width="150" height="42" rx="6" fill="var(--bg-warm)" stroke="var(--border-medium)" stroke-width="1.4" />
+    <text x="265" y="124" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--text)">ADR（裁判外紛争解決）</text>
+    <text x="265" y="139" text-anchor="middle" font-size="7.5" fill="var(--text-muted)">（調停・仲裁など）</text>
+    <line x1="265" y1="150" x2="265" y2="164" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="210" y1="164" x2="320" y2="164" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="210" y1="164" x2="210" y2="196" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="320" y1="164" x2="320" y2="196" stroke="#94a3b8" stroke-width="1.4" />
+    <polygon points="210,200 206,193 214,193" fill="#94a3b8" />
+    <polygon points="320,200 316,193 324,193" fill="#94a3b8" />
+    <rect x="165" y="200" width="90" height="42" rx="6" fill="var(--primary-light)" stroke="var(--primary)" stroke-width="1.6" />
+    <text x="210" y="218" text-anchor="middle" font-size="12" font-weight="700" fill="var(--primary-text)">調停</text>
+    <text x="210" y="233" text-anchor="middle" font-size="7" fill="var(--text-muted)">（合意が前提）</text>
+    <rect x="275" y="200" width="90" height="42" rx="6" fill="var(--primary-light)" stroke="var(--primary)" stroke-width="1.6" />
+    <text x="320" y="218" text-anchor="middle" font-size="12" font-weight="700" fill="var(--primary-text)">仲裁</text>
+    <text x="320" y="233" text-anchor="middle" font-size="7" fill="var(--text-muted)">（判断に従う義務）</text>
+  </svg>
+  <figcaption class="bl-fig-cap">紛争解決の方法は、まず<strong>訴訟</strong>と<strong>ADR（裁判外紛争解決手続）</strong>に分かれる。訴訟は裁判所が判決を下し強制執行までできる最も強制力の強い手段だが、公開審理・三審制で時間もかかる。ADRはさらに<strong>調停</strong>（当事者の合意が前提で、不成立なら訴訟に進める）と<strong>仲裁</strong>（仲裁人の判断に当事者が従う義務があり、原則一審制で不服申立てができない）に分かれる。「話し合いで決めるか、第三者に決めてもらうか」がこの分岐の軸。</figcaption>
+</figure>`,
+  'bankruptcy-branch': `<figure class="bl-figure">
+  <svg viewBox="0 0 380 250" role="img" aria-label="倒産手続きの分岐：清算型の破産と、再建型の民事再生・会社更生" class="bl-fig-svg">
+    <rect x="95" y="14" width="150" height="38" rx="6" fill="var(--primary-light)" stroke="var(--primary)" stroke-width="1.6" />
+    <text x="170" y="38" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--primary-text)">倒産手続き</text>
+    <line x1="170" y1="52" x2="170" y2="68" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="91" y1="68" x2="265" y2="68" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="91" y1="68" x2="91" y2="100" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="265" y1="68" x2="265" y2="100" stroke="#94a3b8" stroke-width="1.4" />
+    <polygon points="91,104 87,97 95,97" fill="#94a3b8" />
+    <polygon points="265,104 261,97 269,97" fill="#94a3b8" />
+    <rect x="16" y="104" width="150" height="54" rx="6" fill="var(--bg-warm)" stroke="var(--border-medium)" stroke-width="1.4" />
+    <text x="91" y="124" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text)">清算型：破産</text>
+    <text x="91" y="138" text-anchor="middle" font-size="7" fill="var(--text-muted)">（破産管財人が管理）</text>
+    <text x="91" y="150" text-anchor="middle" font-size="7" fill="var(--text-muted)">（法人格が消滅）</text>
+    <rect x="190" y="104" width="150" height="38" rx="6" fill="var(--bg-warm)" stroke="var(--border-medium)" stroke-width="1.4" />
+    <text x="265" y="122" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--text)">再建型</text>
+    <text x="265" y="136" text-anchor="middle" font-size="7.5" fill="var(--text-muted)">（事業を続けながら再建）</text>
+    <line x1="265" y1="142" x2="265" y2="158" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="210" y1="158" x2="320" y2="158" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="210" y1="158" x2="210" y2="188" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="320" y1="158" x2="320" y2="188" stroke="#94a3b8" stroke-width="1.4" />
+    <polygon points="210,192 206,185 214,185" fill="#94a3b8" />
+    <polygon points="320,192 316,185 324,185" fill="#94a3b8" />
+    <rect x="165" y="192" width="90" height="50" rx="6" fill="var(--primary-light)" stroke="var(--primary)" stroke-width="1.6" />
+    <text x="210" y="210" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--primary-text)">民事再生</text>
+    <text x="210" y="224" text-anchor="middle" font-size="6.5" fill="var(--text-muted)">（現経営者が続投）</text>
+    <text x="210" y="235" text-anchor="middle" font-size="6.5" fill="var(--text-muted)">（法人・個人とも可）</text>
+    <rect x="275" y="192" width="90" height="50" rx="6" fill="var(--primary-light)" stroke="var(--primary)" stroke-width="1.6" />
+    <text x="320" y="210" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--primary-text)">会社更生</text>
+    <text x="320" y="224" text-anchor="middle" font-size="6.5" fill="var(--text-muted)">（更生管財人が管理）</text>
+    <text x="320" y="235" text-anchor="middle" font-size="6.5" fill="var(--text-muted)">（株式会社のみ）</text>
+  </svg>
+  <figcaption class="bl-fig-cap">倒産手続きは、会社を解体して財産を配当する<strong>清算型（破産）</strong>と、事業を続けながら立て直す<strong>再建型</strong>に大別される。再建型はさらに、現経営者が経営を続けながら再建計画を進める<strong>民事再生</strong>（DIP型・法人個人とも利用可）と、経営者を排除し更生管財人が管理する<strong>会社更生</strong>（株式会社のみ）に分かれる。「会社を畳むか続けるか」「続けるなら経営者は残るか」という2段階の分岐で3手続きの位置関係が整理できる。</figcaption>
+</figure>`,
+  'secured-parties': `<figure class="bl-figure">
+  <svg viewBox="0 0 340 210" role="img" aria-label="担保をめぐる三者関係：債権者・主債務者・物上保証人" class="bl-fig-svg">
+    <rect x="115" y="14" width="110" height="42" rx="6" fill="var(--primary-light)" stroke="var(--primary)" stroke-width="1.6" />
+    <text x="170" y="34" text-anchor="middle" font-size="13" font-weight="700" fill="var(--primary-text)">債権者</text>
+    <text x="170" y="49" text-anchor="middle" font-size="8" fill="var(--text-muted)">（お金を貸した人）</text>
+    <line x1="170" y1="56" x2="170" y2="74" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="81" y1="74" x2="259" y2="74" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="81" y1="74" x2="81" y2="108" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="259" y1="74" x2="259" y2="108" stroke="#94a3b8" stroke-width="1.4" />
+    <polygon points="81,112 77,105 85,105" fill="#94a3b8" />
+    <polygon points="259,112 255,105 263,105" fill="#94a3b8" />
+    <text x="45" y="95" font-size="7.5" font-weight="700" fill="var(--text-muted)">返済義務</text>
+    <text x="259" y="90" text-anchor="middle" font-size="7" font-weight="700" fill="var(--text-muted)">担保提供のみ</text>
+    <text x="259" y="100" text-anchor="middle" font-size="6.5" fill="var(--text-muted)">（債務は負わない）</text>
+    <rect x="16" y="112" width="130" height="46" rx="6" fill="var(--bg-warm)" stroke="var(--border-medium)" stroke-width="1.4" />
+    <text x="81" y="132" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text)">主債務者</text>
+    <text x="81" y="147" text-anchor="middle" font-size="7.5" fill="var(--text-muted)">（お金を借りた人）</text>
+    <rect x="194" y="112" width="130" height="46" rx="6" fill="var(--bg-warm)" stroke="var(--border-medium)" stroke-width="1.4" />
+    <text x="259" y="130" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text)">物上保証人</text>
+    <text x="259" y="145" text-anchor="middle" font-size="6.5" fill="var(--text-muted)">（自分の不動産を担保に出す人）</text>
+    <line x1="259" y1="158" x2="259" y2="178" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="3 2" />
+    <line x1="259" y1="178" x2="81" y2="178" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="3 2" />
+    <line x1="81" y1="178" x2="81" y2="162" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="3 2" />
+    <polygon points="81,158 77,165 85,165" fill="var(--accent)" />
+    <text x="170" y="194" text-anchor="middle" font-size="7.5" font-weight="700" fill="var(--accent)">肩代わりしたら求償権</text>
+  </svg>
+  <figcaption class="bl-fig-cap">抵当権・質権は、お金を借りた本人（<strong>主債務者</strong>）だけでなく、<strong>第三者が自分の財産を担保に差し出す</strong>形でも設定できる（民法369条1項「債務者又は第三者」）。この第三者を<strong>物上保証人</strong>という。物上保証人は自分の不動産に抵当権を設定するだけで、主債務者の借金そのものを負うわけではない。ただし主債務者が返済できなければ、債権者はその不動産から回収する（担保権の実行）。物上保証人が肩代わりして弁済したときは、主債務者に対して<strong>求償権</strong>（返してもらう権利）を持つ（民法351条・372条で抵当権に準用）。</figcaption>
+</figure>`,
+};
+
 // 表・見出し・リストを静的HTMLへ変換（旧stripMarkdownは表を丸ごと削除していたため新設。
 // 本サイトはApp.tsx側にコールアウト専用スタイルが無いため💡⚠️等は地の文としてそのまま出す）
 function mdToHtml(content: string): string {
@@ -21,6 +149,8 @@ function mdToHtml(content: string): string {
   let i = 0;
   while (i < lines.length) {
     const t = lines[i].trim();
+    const figKey = t.match(/^\[\[([a-z0-9-]+)\]\]$/);
+    if (figKey && FIGURES[figKey[1]]) { out.push(FIGURES[figKey[1]]); i++; continue; }
     if (t === '' || /^\[\[.*?\]\]$/.test(t)) { i++; continue; }
     if (/^---+$/.test(t)) { out.push('<hr style="border:0;border-top:1px solid #ddd;margin:18px 0">'); i++; continue; }
     if (t.startsWith('#### ')) { out.push(`<h4 style="font-size:1rem;margin:16px 0 6px">${inlineHtml(t.slice(5))}</h4>`); i++; continue; }
