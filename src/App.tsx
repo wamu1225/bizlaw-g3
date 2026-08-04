@@ -13,6 +13,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const PROGRESS_KEY = 'bizlaw-g3-progress';
 
+// 行頭の絵文字マーカーは装飾でなくテキストラベルへ（2026-08-05・O-2-8）。prerender.ts と同じ変換。
+const LINE_MARKERS: Record<string, string> = {
+  '💡': 'ヒント',
+  '🎯': '試験ポイント',
+  '⚠️': '注意',
+  '📌': 'まとめ',
+  '📖': '発展',
+};
+// 見出しは見出し文自体が既に意味を伝えるため、絵文字だけ剥がす（ラベル追加はしない）。
+function stripLeadingMarker(text: string): string {
+  const markerKey = Object.keys(LINE_MARKERS).find((mk) => text.startsWith(mk));
+  return markerKey ? text.slice(markerKey.length).trim() : text;
+}
+
 const chapterColors: Record<number, { bg: string; text: string; accent: string; light: string }> = {
   1: { bg: '#dbeafe', text: '#1e3a8a', accent: '#1d4ed8', light: '#eff6ff' },
   2: { bg: '#e0f2fe', text: '#075985', accent: '#0369a1', light: '#f0f9ff' },
@@ -415,15 +429,21 @@ function App() {
       }
       if (tableLines.length > 0) { flushTable(key); }
 
-      if (trimmedLine.startsWith('#### ')) { flushList(key); flushOList(key); result.push(<h4 key={key} className="content-h4">{parseInlineContent(trimmedLine.slice(5))}</h4>); return; }
-      if (trimmedLine.startsWith('### ')) { flushList(key); flushOList(key); result.push(<h3 key={key} className="content-h3">{parseInlineContent(trimmedLine.slice(4))}</h3>); return; }
-      if (trimmedLine.startsWith('## ')) { flushList(key); flushOList(key); const sectionId = `section-${h2Counter++}`; result.push(<h2 key={key} id={sectionId} className="content-h2">{parseInlineContent(trimmedLine.slice(3))}</h2>); return; }
+      if (trimmedLine.startsWith('#### ')) { flushList(key); flushOList(key); result.push(<h4 key={key} className="content-h4">{parseInlineContent(stripLeadingMarker(trimmedLine.slice(5)))}</h4>); return; }
+      if (trimmedLine.startsWith('### ')) { flushList(key); flushOList(key); result.push(<h3 key={key} className="content-h3">{parseInlineContent(stripLeadingMarker(trimmedLine.slice(4)))}</h3>); return; }
+      if (trimmedLine.startsWith('## ')) { flushList(key); flushOList(key); const sectionId = `section-${h2Counter++}`; result.push(<h2 key={key} id={sectionId} className="content-h2">{parseInlineContent(stripLeadingMarker(trimmedLine.slice(3)))}</h2>); return; }
       if (trimmedLine.startsWith('---')) { flushList(key); flushOList(key); result.push(<hr key={key} className="content-hr" />); return; }
       if (trimmedLine.startsWith('- ')) { flushOList(key); currentList.push(<li key={`li-${lineIdx}`}>{parseInlineContent(trimmedLine.slice(2))}</li>); return; }
       const olMatch = trimmedLine.match(/^(\d+)\. (.+)/);
       if (olMatch) { flushList(key); currentOList.push(<li key={`oli-${lineIdx}`}>{parseInlineContent(olMatch[2])}</li>); return; }
       if (trimmedLine === '') { flushList(key); flushOList(key); return; }
       flushList(key); flushOList(key);
+      const markerKey = Object.keys(LINE_MARKERS).find((mk) => trimmedLine.startsWith(mk));
+      if (markerKey) {
+        const rest = trimmedLine.slice(markerKey.length).trim();
+        result.push(<p key={key} className="content-p"><strong style={{ color: '#2563eb' }}>{LINE_MARKERS[markerKey]}：</strong>{parseInlineContent(rest)}</p>);
+        return;
+      }
       result.push(<p key={key} className="content-p">{parseInlineContent(line)}</p>);
     });
     flushTable('final');
