@@ -4,6 +4,7 @@ import sharp from 'sharp';
 import { modules } from '../src/data/modules';
 import { glossary } from '../src/data/glossary';
 import { buildUsecaseHtml } from '../src/data/usecaseGuide';
+import { EXAM_CONFIG } from '../src/data/examConfig';
 
 const DIST_DIR = path.resolve(process.cwd(), 'dist');
 const INDEX_HTML_PATH = path.join(DIST_DIR, 'index.html');
@@ -428,32 +429,114 @@ ${glossaryTermsHtml}
     },
     bodyHtml: `<div style="background:#eff6ff;border-bottom:1px solid #bfdbfe;padding:10px 16px;font-size:0.88rem;text-align:center;margin-bottom:16px;border-radius:6px;max-width:860px;margin-left:auto;margin-right:auto"><a href="https://study-apps.com/" style="color:#1e3a8a;text-decoration:none;font-weight:600">← study-apps.com 学習サイト集トップへ</a></div><article id="static-fallback" style="font-family:sans-serif;line-height:1.7;max-width:860px;margin:0 auto;padding:24px 16px">
   <nav style="margin-bottom:16px"><a href="${BASE}/" style="color:#2563eb;text-decoration:none">← ホームへ戻る</a></nav>
-  <h1 style="font-size:1.6rem;font-weight:700;border-bottom:2px solid #2563eb;padding-bottom:8px;margin-bottom:20px">試験ガイド</h1>
-  <p style="color:#555;margin-bottom:24px">ビジネス実務法務検定3級の試験概要を解説します。</p>
-  <h2 style="font-size:1.2rem;font-weight:700;margin:20px 0 8px">試験概要</h2>
-  <p style="color:#444">ビジネス実務法務検定3級は、東京商工会議所が主催する法律系資格です。試験時間は90分、IBT（自宅受験）またはCBT（テストセンター）方式の多肢選択式です。合格基準は100点満点中70点以上。合格率は年度・回により変動し、公式データでは35〜58%程度で推移しています。</p>
-  <h2 style="font-size:1.2rem;font-weight:700;margin:20px 0 8px">主な出題範囲</h2>
-  <ul style="color:#444;padding-left:20px">
-    <li>ビジネス実務法務の必要性と法体系（公法・私法・強行法規等）</li>
-    <li>企業取引の法務（契約の成立・種類・消費者契約法等）</li>
-    <li>企業と従業員の関係（労働基準法・就業規則・解雇等）</li>
-    <li>ビジネス上のリスク管理（不法行為・PL法・個人情報保護法等）</li>
-    <li>企業活動に関わる法規制（独占禁止法・知的財産権等）</li>
-    <li>紛争の解決方法（民事訴訟・調停・仲裁・ADR等）</li>
-  </ul>
-  <h2 style="font-size:1.2rem;font-weight:700;margin:20px 0 8px">重要数値チートシート</h2>
-  <table style="width:100%;border-collapse:collapse;font-size:0.9rem">
-    <thead><tr style="background:#fef3c7"><th style="padding:8px 12px;border:1px solid #e2e8f0;text-align:left">数値・キーワード</th><th style="padding:8px 12px;border:1px solid #e2e8f0;text-align:left">意味</th></tr></thead>
+  <h1 style="font-size:1.6rem;font-weight:700;border-bottom:2px solid #2563eb;padding-bottom:8px;margin-bottom:8px">ビジネス実務法務検定 3級 試験ガイド</h1>
+  <p style="color:#555;margin-bottom:24px">東京商工会議所主催。民法・商法・会社法・労働法など、企業活動に必要な法律知識の基礎を問う検定。合格者には「ビジネス法務リーダー®」の称号が与えられる。</p>
+
+  <h2 style="font-size:1.2rem;font-weight:700;margin:20px 0 8px">試験の概要</h2>
+  <table style="width:100%;border-collapse:collapse;font-size:0.9rem;margin-bottom:12px">
+    <thead><tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0"><th style="padding:8px 12px;text-align:left;width:30%">項目</th><th style="padding:8px 12px;text-align:left">詳細</th></tr></thead>
     <tbody>
-      <tr><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:700;color:#d97706">特許権：20年</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#444">出願日から20年（医薬品等は最大5年延長可）</td></tr>
-      <tr style="background:#f9fafb"><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:700;color:#d97706">著作権：死後70年</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#444">著作者の死後70年。登録不要・創作と同時発生</td></tr>
-      <tr><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:700;color:#d97706">商標権：10年（更新可）</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#444">登録日から10年・更新で半永久的存続が可能</td></tr>
-      <tr style="background:#f9fafb"><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:700;color:#d97706">民法第709条</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#444">不法行為（故意・過失・権利侵害・損害・因果関係）</td></tr>
-      <tr><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:700;color:#d97706">民法第90条</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#444">公序良俗違反の法律行為は無効</td></tr>
-      <tr style="background:#f9fafb"><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:700;color:#d97706">仲裁 vs 調停</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#444">仲裁は当事者拘束力あり・調停は合意が前提で強制力なし</td></tr>
+      <tr style="border-bottom:1px solid #e2e8f0"><td style="padding:8px 12px;font-weight:700">主催</td><td style="padding:8px 12px">${EXAM_CONFIG.organizer}</td></tr>
+      <tr style="border-bottom:1px solid #e2e8f0"><td style="padding:8px 12px;font-weight:700">正式名称</td><td style="padding:8px 12px">${EXAM_CONFIG.name}</td></tr>
+      <tr style="border-bottom:1px solid #e2e8f0"><td style="padding:8px 12px;font-weight:700">合格称号</td><td style="padding:8px 12px">ビジネス法務リーダー®</td></tr>
+      <tr style="border-bottom:1px solid #e2e8f0"><td style="padding:8px 12px;font-weight:700">試験方式</td><td style="padding:8px 12px">IBT（自宅・会社） / CBT（テストセンター）</td></tr>
+      <tr style="border-bottom:1px solid #e2e8f0"><td style="padding:8px 12px;font-weight:700">出題形式</td><td style="padding:8px 12px">多肢選択式（100点満点）</td></tr>
+      <tr style="border-bottom:1px solid #e2e8f0"><td style="padding:8px 12px;font-weight:700">試験時間</td><td style="padding:8px 12px">${EXAM_CONFIG.duration}分</td></tr>
+      <tr style="border-bottom:1px solid #e2e8f0"><td style="padding:8px 12px;font-weight:700">合格基準</td><td style="padding:8px 12px">${EXAM_CONFIG.passingScoreLabel}（絶対評価）</td></tr>
+      <tr style="border-bottom:1px solid #e2e8f0"><td style="padding:8px 12px;font-weight:700">実施時期</td><td style="padding:8px 12px">IBTは随時受験可能。CBTは会場スケジュールによる</td></tr>
+      <tr><td style="padding:8px 12px;font-weight:700">受験料</td><td style="padding:8px 12px">${EXAM_CONFIG.examFee}</td></tr>
     </tbody>
   </table>
-  <p style="margin-top:24px;font-size:0.85rem;color:#888">※最新情報は必ず<a href="https://kentei.tokyo-cci.or.jp/houmu/" style="color:#2563eb" target="_blank" rel="noopener noreferrer">東京商工会議所の公式サイト</a>でご確認ください。</p>
+  <p style="color:#888;font-size:0.85rem">※ 試験方式・スケジュール・受験料は変更される場合があります。最新情報は<a href="${EXAM_CONFIG.officialUrl}" style="color:#2563eb" target="_blank" rel="noopener noreferrer">公式サイト</a>でご確認ください。</p>
+
+  <h2 style="font-size:1.2rem;font-weight:700;margin:20px 0 8px">出題範囲と法律グループ</h2>
+  <p style="color:#444">試験問題は東京商工会議所発行の公式テキストから高い割合で出題される。4つの法律グループが主な出題範囲となり、特に民法グループの比重が高い。</p>
+  <ul style="color:#444;padding-left:20px">
+    <li><strong>民法グループ</strong>（民法・借地借家法・破産法・民事再生法・仮登記担保法）：最重要。契約・不法行為・物権が中心</li>
+    <li><strong>商法グループ</strong>（商法・会社法・手形法・小切手法・会社更生法）：株主総会・取締役の義務が頻出</li>
+    <li><strong>労働法グループ</strong>（労働基準法・労働組合法・男女雇用機会均等法・労働者派遣法）：解雇・賃金・労働条件の明示が重要</li>
+    <li><strong>特例法グループ</strong>（独占禁止法・不正競争防止法・消費者契約法・特定商取引法・個人情報保護法・特許法・著作権法・商標法・意匠法・実用新案法 他）：知財の保護期間・個人情報の定義が頻出</li>
+  </ul>
+  <h3 style="font-size:1.05rem;font-weight:700;color:#2563eb;margin:16px 0 6px">① ビジネス実務法務の必要性と法体系</h3>
+  <p style="color:#444">法の分類（公法・私法）、強行法規と任意法規、特別法優先の原則。「無効」と「取消し」、「善意・悪意」など日常語と異なる法的用語の正確な理解が最初の関門。</p>
+  <h3 style="font-size:1.05rem;font-weight:700;color:#2563eb;margin:16px 0 6px">② 企業取引の法務</h3>
+  <p style="color:#444">契約の成立（申込みと承諾・到達主義）、契約種類（売買・請負・委任等）、契約不適合責任、消費者契約法。契約成立の要件と各契約類型の特徴が最頻出。</p>
+  <h3 style="font-size:1.05rem;font-weight:700;color:#2563eb;margin:16px 0 6px">③ 企業と従業員の関係</h3>
+  <p style="color:#444">労働基準法の基本原則（賃金支払い5原則）、就業規則の効力、雇用契約と業務委託の区別。労働者性の判断基準と解雇要件が重要。</p>
+  <h3 style="font-size:1.05rem;font-weight:700;color:#2563eb;margin:16px 0 6px">④ ビジネス上のリスク管理</h3>
+  <p style="color:#444">不法行為の成立要件（故意・過失・因果関係）、製造物責任法（PL法=無過失責任）、個人情報保護法（死者の情報は対象外）。数値・要件の暗記が得点に直結。</p>
+  <h3 style="font-size:1.05rem;font-weight:700;color:#2563eb;margin:16px 0 6px">⑤ 企業活動に関わる法規制</h3>
+  <p style="color:#444">独占禁止法（不当な取引制限・不公正な取引方法）、下請法の概要。知的財産権の種類ごとの保護期間と登録要否は頻出暗記事項。</p>
+  <h3 style="font-size:1.05rem;font-weight:700;color:#2563eb;margin:16px 0 6px">⑥ 紛争の解決方法</h3>
+  <p style="color:#444">民事訴訟・調停・仲裁・ADRの違い。仲裁は仲裁人の判断に当事者が従う義務があり訴訟不可（調停とは異なる）。混同しやすい重要ポイント。</p>
+
+  <h2 style="font-size:1.2rem;font-weight:700;margin:20px 0 8px">3ヶ月 学習ロードマップ（標準 50時間）</h2>
+  <p style="color:#444">法律初学者の場合の標準的なプランです。法学部出身・法律知識がある方は第2期からスタートも可。</p>
+  <p style="color:#444"><strong style="color:#2563eb">第1期｜1〜4週目　インプットと概念把握（週4時間×4週＝計16時間）</strong></p>
+  <ul style="color:#444;padding-left:20px">
+    <li>公式テキストを1周通読し、全体像と専門用語を把握する</li>
+    <li>「無効と取消し」「善意と悪意」など法的特有の用語を図解でイメージ固め</li>
+    <li>各法律グループの役割（民法＝取引の基本ルール、会社法＝組織のルール）を整理する</li>
+  </ul>
+  <p style="color:#444"><strong style="color:#15803d">第2期｜5〜8週目　アウトプットと弱点補強（週5時間×4週＝計20時間）</strong></p>
+  <ul style="color:#444;padding-left:20px">
+    <li>一問一答形式の問題集で知識の定着を確認する</li>
+    <li>分野別過去問を実施し、頻出項目と自身の弱点を特定する</li>
+    <li>間違えた問題はテキストに戻り「なぜその結論になるのか」という論理を再構築する</li>
+    <li>配点の中心「企業取引（民法）」に重点投資する</li>
+  </ul>
+  <p style="color:#444"><strong style="color:#c2410c">第3期｜9〜12週目　実戦形式と IBT/CBT 対策（週5時間×4週＝計20時間）</strong></p>
+  <ul style="color:#444;padding-left:20px">
+    <li>予想模擬試験で90分の時間配分を体感する</li>
+    <li>IBT対応のオンライン演習で、PC画面での長文読解と選択肢操作に慣れる</li>
+    <li>翔泳社「IBT対応問題集」など、デジタル形式の演習ツールを活用する</li>
+    <li>余剰時間は弱点分野（特に知財保護期間の数値）の補強に充てる</li>
+  </ul>
+  <p style="color:#444"><strong>学習時間の目安：</strong>法律初学者は40〜60時間（1〜2ヶ月）、法学部出身・基礎がある方は20〜35時間（2週間〜1ヶ月）、短期集中型（再受験等）は10〜20時間（1〜2週間）。</p>
+
+  <h2 style="font-size:1.2rem;font-weight:700;margin:20px 0 8px">推奨教材</h2>
+  <table style="width:100%;border-collapse:collapse;font-size:0.9rem;margin-bottom:12px">
+    <thead><tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0"><th style="padding:8px 12px;text-align:left">出版社・教材名</th><th style="padding:8px 12px;text-align:center">おすすめ度</th><th style="padding:8px 12px;text-align:left">特徴</th><th style="padding:8px 12px;text-align:left">向いている人</th></tr></thead>
+    <tbody>
+      <tr style="border-bottom:1px solid #e2e8f0"><td style="padding:8px 12px;font-weight:700">TAC『テキスト＆一問一答』</td><td style="padding:8px 12px;text-align:center;color:#f59e0b">★★★★★</td><td style="padding:8px 12px">A/B/Cランク表示で頻出論点を特化。語呂合わせあり</td><td style="padding:8px 12px;color:#6b7280">短期集中・効率性重視のビジネスパーソン</td></tr>
+      <tr style="border-bottom:1px solid #e2e8f0"><td style="padding:8px 12px;font-weight:700">成美堂出版『テキスト＆問題集』</td><td style="padding:8px 12px;text-align:center;color:#f59e0b">★★★★☆</td><td style="padding:8px 12px">公式テキスト準拠。図解が豊富で初学者に優しい</td><td style="padding:8px 12px;color:#6b7280">基礎から体系的に学びたい独学者</td></tr>
+      <tr><td style="padding:8px 12px;font-weight:700">翔泳社『分野別過去問題集』</td><td style="padding:8px 12px;text-align:center;color:#f59e0b">★★★★☆</td><td style="padding:8px 12px">過去9回分を精選、詳細解説、IBT模擬試験付き</td><td style="padding:8px 12px;color:#6b7280">演習量で実力を定着させたい層</td></tr>
+    </tbody>
+  </table>
+  <p style="color:#444"><strong>デジタル教材：</strong>オンスク.jp・スタディングなどのアプリは隙間時間での一問一答に有効。IBT化に伴い、PC画面での解答リズムを事前に体得しておくことが重要。</p>
+
+  <h2 style="font-size:1.2rem;font-weight:700;margin:20px 0 8px">IBT / CBT 方式 受験時の注意事項</h2>
+  <p style="color:#444"><strong>環境チェック（IBT）：</strong>指定ブラウザのバージョン確認、安定したインターネット回線の確保、カメラ・マイクが必要な場合あり、試験前に環境テストを必ず実施。</p>
+  <p style="color:#444"><strong>画面操作への習熟：</strong>長文はスクロールが発生するため読み飛ばしに注意、マウス操作による選択肢選択に慣れる、フラグ機能（後で見直し）を活用する、IBT対応問題集でPC環境に慣れておく。</p>
+  <p style="color:#444"><strong>時間管理と集中力：</strong>90分を1問約1.8分で配分（難問は飛ばす）、試験開始時間を自分でコントロールできるIBTは自律心が重要、試験直前はリラクゼーションで集中力を整える、見直し時間を10〜15分確保する。</p>
+
+  <h2 style="font-size:1.2rem;font-weight:700;margin:20px 0 8px">重要数値・キーワードチートシート</h2>
+  <p style="color:#555;font-size:0.9rem;margin-bottom:12px">試験では条文番号・数値・定義の正確な暗記が合否を分ける。以下を確実に覚えること。</p>
+  <table style="width:100%;border-collapse:collapse;font-size:0.9rem">
+    <thead><tr style="background:#fef3c7"><th style="padding:8px 12px;border:1px solid #e2e8f0;text-align:left">数値・キーワード</th><th style="padding:8px 12px;border:1px solid #e2e8f0;text-align:left">内容</th><th style="padding:8px 12px;border:1px solid #e2e8f0;text-align:left">補足</th></tr></thead>
+    <tbody>
+      <tr><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:700;color:#b45309">民法第90条</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#444">公序良俗違反の法律行為は無効</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#6b7280">反社会的契約・射倖契約等</td></tr>
+      <tr style="background:#f9fafb"><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:700;color:#b45309">民法第709条</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#444">不法行為の一般的成立要件（故意・過失・権利侵害・損害・因果関係）</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#6b7280">損害賠償請求権の根拠</td></tr>
+      <tr><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:700;color:#b45309">特許権：20年</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#444">存続期間（出願日から20年）</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#6b7280">登録必要。医薬品等は最大5年延長可</td></tr>
+      <tr style="background:#f9fafb"><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:700;color:#b45309">著作権：死後70年</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#444">著作者の死後70年</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#6b7280">登録不要・創作と同時に発生</td></tr>
+      <tr><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:700;color:#b45309">商標権：10年（更新可）</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#444">存続期間（登録日から10年）</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#6b7280">更新で半永久的に存続可能</td></tr>
+      <tr style="background:#f9fafb"><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:700;color:#b45309">意匠権：25年</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#444">存続期間（登録日から25年）</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#6b7280">登録必要</td></tr>
+      <tr><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:700;color:#b45309">実用新案権：10年</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#444">存続期間（出願日から10年）</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#6b7280">無審査登録制度</td></tr>
+      <tr style="background:#f9fafb"><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:700;color:#b45309">製造物責任法（PL法）</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#444">製品の欠陥による損害：製造業者の無過失責任</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#6b7280">被害者は過失の立証不要</td></tr>
+      <tr><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:700;color:#b45309">個人情報の定義</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#444">生存する個人に関する情報</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#6b7280">死者の情報は対象外</td></tr>
+      <tr style="background:#f9fafb"><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:700;color:#b45309">労働基準法第15条</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#444">労働条件の明示義務</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#6b7280">賃金・労働時間等の重要事項は書面で明示</td></tr>
+      <tr><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:700;color:#b45309">仲裁 vs 調停</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#444">仲裁：仲裁人の判断に従う義務あり（訴訟不可）</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#6b7280">調停：合意が前提・強制力なし</td></tr>
+      <tr style="background:#f9fafb"><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:700;color:#b45309">取締役の善管注意義務</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#444">委任契約に基づく義務（会社法第330条・民法第644条）</td><td style="padding:8px 12px;border:1px solid #e2e8f0;color:#6b7280">忠実義務（会社法第355条）も重要</td></tr>
+    </tbody>
+  </table>
+
+  <h2 style="font-size:1.2rem;font-weight:700;margin:20px 0 8px">合格後のステップアップ</h2>
+  <p style="color:#444"><strong>称号の取得：</strong>合格者は「ビジネス法務リーダー®」の称号を使用可能。対外的に法的素養を証明でき、社内でのキャリア形成においても評価向上が期待できる。</p>
+  <p style="color:#444"><strong>2級へのステップアップ：</strong>2級（ビジネス法務エキスパート®）では国際取引・倒産法等より高度な内容を扱う。3級の範囲が多く重複するため、3級学習中から2級を意識した深い理解を心がけると効率よくダブル取得できる。</p>
+  <p style="color:#444"><strong>他資格との相乗効果：</strong>行政書士・宅地建物取引士など他の法律系資格との学習範囲が重複。また、メンタルヘルス・マネジメント検定の「安全配慮義務」はビジ法の不法行為・労働契約の知識が直接活用できる。</p>
+
+  <h2 style="font-size:1.2rem;font-weight:700;margin:20px 0 8px">免責事項</h2>
+  <p style="color:#888;font-size:0.9rem;border-left:3px solid #fbbf24;padding-left:12px">本サイトは東京商工会議所の公式サイトではありません。試験の出題範囲・申込方法・合否については必ず<a href="${EXAM_CONFIG.officialUrl}" style="color:#2563eb" target="_blank" rel="noopener noreferrer">公式サイト</a>をご確認ください。掲載情報は変更される可能性があります。</p>
   <p style="margin-top:16px"><a href="${BASE}/" style="color:#2563eb">← ホームへ戻る</a></p>
 </article>`
   },
@@ -506,24 +589,20 @@ ${glossaryTermsHtml}
   <p style="color:#888;font-size:0.9rem;margin-bottom:24px">最終更新：2026年5月</p>
   <section style="margin-bottom:20px">
     <h2 style="font-size:1.15rem;font-weight:700;margin-bottom:8px">1. サイトについて</h2>
-    <p style="color:#444">本サイトは、ビジネス実務法務検定3級の学習を支援することを目的とした個人運営のサイトです。</p>
-    <p style="color:#888;font-size:0.9rem;margin-top:8px">本サイトは東京商工会議所の公式サイトではありません。</p>
+    <p style="color:#444">本サイト「ビジネス実務法務検定 3級 学習リファレンス」は、ビジネス実務法務検定3級の学習を支援することを目的とした個人運営のサイトです。</p>
+    <p style="color:#888;font-size:0.9rem;margin-top:8px">本サイトは東京商工会議所の公式サイトではありません。試験の出題範囲・申込方法・合否については、必ず公式サイトをご確認ください。</p>
   </section>
   <section style="margin-bottom:20px">
-    <h2 style="font-size:1.15rem;font-weight:700;margin-bottom:8px">2. Google Analytics の利用</h2>
-    <p style="color:#444">アクセス分析のためにGoogle Analyticsを使用しています。収集されるデータは匿名であり、個人を特定する情報は含まれません。</p>
+    <h2 style="font-size:1.15rem;font-weight:700;margin-bottom:8px">2. 学習進捗データについて</h2>
+    <p style="color:#444">クイズの得点・完了状況は、お使いのブラウザのローカルストレージにのみ保存されます。このデータは外部サーバーへ送信されることはなく、運営者も閲覧できません。ブラウザのデータ削除により消去されます。</p>
   </section>
   <section style="margin-bottom:20px">
-    <h2 style="font-size:1.15rem;font-weight:700;margin-bottom:8px">3. Google AdSense の利用</h2>
-    <p style="color:#444">広告配信のためにGoogle AdSenseを使用しています。<a href="https://www.google.com/settings/ads" style="color:#2563eb">広告設定ページ</a>でパーソナライズ広告を無効にできます。Cookieの使用については<a href="https://policies.google.com/technologies/ads" style="color:#2563eb">Googleの広告ポリシー</a>をご参照ください。</p>
-  </section>
-  <section style="margin-bottom:20px">
-    <h2 style="font-size:1.15rem;font-weight:700;margin-bottom:8px">4. 学習進捗データ</h2>
-    <p style="color:#444">クイズの得点・完了状況はブラウザのローカルストレージにのみ保存されます。外部サーバーへの送信はありません。</p>
+    <h2 style="font-size:1.15rem;font-weight:700;margin-bottom:8px">3. コンテンツの免責事項</h2>
+    <p style="color:#444">本サイトの解説・問題は学習目的で作成されており、内容の正確性を保証するものではありません。本サイトの情報を利用したことによるいかなる損害についても、運営者は責任を負いかねます。</p>
   </section>
   <section>
-    <h2 style="font-size:1.15rem;font-weight:700;margin-bottom:8px">5. 免責事項</h2>
-    <p style="color:#444">本サイトの解説・問題は学習目的で作成されており、内容の正確性を保証するものではありません。</p>
+    <h2 style="font-size:1.15rem;font-weight:700;margin-bottom:8px">4. 本ポリシーの変更</h2>
+    <p style="color:#444">本ポリシーは予告なく変更される場合があります。変更後のポリシーはこのページへの掲載をもって効力を生じます。</p>
   </section>
   <p style="margin-top:32px"><a href="${BASE}/" style="color:#2563eb">← ホームへ戻る</a></p>
 </article>`
