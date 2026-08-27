@@ -248,11 +248,13 @@ const homeJsonLd = JSON.stringify([
     'url': `${BASE_URL}/`,
     'description': 'ビジネス実務法務検定3級の合格を目指す学習リファレンス。民法・商法・会社法・労働法など企業取引に必要な法律知識をわかりやすく解説。',
     'inLanguage': 'ja',
-    'potentialAction': {
-      '@type': 'SearchAction',
-      'target': `${BASE_URL}/?q={search_term_string}`,
-      'query-input': 'required name=search_term_string'
-    }
+    // ⚠️ potentialAction（SearchAction）は 2026-08-28 に削除した。
+    // このサイトにはサイト内検索が無いので、Sitelinks Searchbox を宣言してはいけない。
+    // さらに `target` を文字列で書いていたため、Google が
+    // `https://study-apps.com/bizlaw-g3/?q={search_term_string}` を実URLとしてクロールし、
+    // GSC のカバレッジに「代替ページ（適切な canonical タグあり）」として計上されていた。
+    // 将来サイト内検索を実装したら、target は EntryPoint オブジェクトで書くこと：
+    //   'target': { '@type': 'EntryPoint', 'urlTemplate': `${BASE_URL}/search/?q={search_term_string}` }
   },
   {
     '@context': 'https://schema.org',
