@@ -16,12 +16,15 @@ export interface Module {
   content: string;
   scope: '3級';
   quiz: QuizQuestion[];
+  /** この本文が最後に実質更新された日（git log -L で当該行範囲の最終コミット日を実測） */
+  updatedAt: string;
 }
 
 export const modules: Module[] = [
   // ── Chapter 1 ──────────────────────────────────────────────────────────────
   {
     id: '1-1',
+    updatedAt: '2026-07-27',
     title: 'ビジネス実務法務とは・法の役割',
     chapter: 1,
     scope: '3級',
@@ -191,6 +194,7 @@ export const modules: Module[] = [
   },
   {
     id: '1-2',
+    updatedAt: '2026-07-27',
     title: '法律行為と意思表示',
     chapter: 1,
     scope: '3級',
@@ -356,6 +360,7 @@ export const modules: Module[] = [
   // ── Chapter 2 ──────────────────────────────────────────────────────────────
   {
     id: '2-1',
+    updatedAt: '2026-07-27',
     title: '契約の成立と効力',
     chapter: 2,
     scope: '3級',
@@ -527,6 +532,7 @@ export const modules: Module[] = [
   },
   {
     id: '2-2',
+    updatedAt: '2026-07-28',
     title: '物権・担保の基礎',
     chapter: 2,
     scope: '3級',
@@ -706,6 +712,7 @@ export const modules: Module[] = [
   },
   {
     id: '2-3',
+    updatedAt: '2026-07-27',
     title: '債権・債務と契約の解除',
     chapter: 2,
     scope: '3級',
@@ -880,6 +887,7 @@ export const modules: Module[] = [
   },
   {
     id: '2-4',
+    updatedAt: '2026-07-27',
     title: '商取引の法務（商法・手形・小切手）',
     chapter: 2,
     scope: '3級',
@@ -1057,6 +1065,7 @@ export const modules: Module[] = [
   },
   {
     id: '2-5',
+    updatedAt: '2026-07-27',
     title: '消費者保護法（消費者契約法・特定商取引法）',
     chapter: 2,
     scope: '3級',
@@ -1218,6 +1227,7 @@ export const modules: Module[] = [
   // ── Chapter 3 ──────────────────────────────────────────────────────────────
   {
     id: '3-1',
+    updatedAt: '2026-07-27',
     title: '労働基準法の基礎',
     chapter: 3,
     scope: '3級',
@@ -1381,6 +1391,7 @@ export const modules: Module[] = [
   },
   {
     id: '3-2',
+    updatedAt: '2026-07-27',
     title: '雇用・解雇と就業規則',
     chapter: 3,
     scope: '3級',
@@ -1525,6 +1536,7 @@ export const modules: Module[] = [
   },
   {
     id: '3-3',
+    updatedAt: '2026-07-27',
     title: '男女雇用機会均等法・労働者派遣法・労働組合法',
     chapter: 3,
     scope: '3級',
@@ -1688,6 +1700,7 @@ export const modules: Module[] = [
   // ── Chapter 4 ──────────────────────────────────────────────────────────────
   {
     id: '4-1',
+    updatedAt: '2026-07-27',
     title: '不法行為と製造物責任（PL法）',
     chapter: 4,
     scope: '3級',
@@ -1863,6 +1876,7 @@ PL法の時効と合わせて、通常の不法行為の時効を整理しまし
   },
   {
     id: '4-2',
+    updatedAt: '2026-07-27',
     title: '個人情報保護法',
     chapter: 4,
     scope: '3級',
@@ -2020,6 +2034,7 @@ PL法の時効と合わせて、通常の不法行為の時効を整理しまし
   },
   {
     id: '4-3',
+    updatedAt: '2026-07-27',
     title: '会社法の基礎（株式会社・機関設計）',
     chapter: 4,
     scope: '3級',
@@ -2199,6 +2214,7 @@ PL法の時効と合わせて、通常の不法行為の時効を整理しまし
   // ── Chapter 5 ──────────────────────────────────────────────────────────────
   {
     id: '5-1',
+    updatedAt: '2026-07-27',
     title: '独占禁止法・下請法・不正競争防止法',
     chapter: 5,
     scope: '3級',
@@ -2350,6 +2366,7 @@ PL法の時効と合わせて、通常の不法行為の時効を整理しまし
   },
   {
     id: '5-2',
+    updatedAt: '2026-07-27',
     title: '知的財産権Ⅰ（特許法・実用新案法・意匠法）',
     chapter: 5,
     scope: '3級',
@@ -2503,6 +2520,7 @@ PL法の時効と合わせて、通常の不法行為の時効を整理しまし
   },
   {
     id: '5-3',
+    updatedAt: '2026-07-27',
     title: '知的財産権Ⅱ（著作権法・商標法）',
     chapter: 5,
     scope: '3級',
@@ -2679,6 +2697,7 @@ PL法の時効と合わせて、通常の不法行為の時効を整理しまし
   // ── Chapter 6 ──────────────────────────────────────────────────────────────
   {
     id: '6-1',
+    updatedAt: '2026-07-28',
     title: '紛争解決（訴訟・ADR・調停・仲裁）',
     chapter: 6,
     scope: '3級',
@@ -2841,6 +2860,7 @@ ADRのメリット：訴訟より費用・時間が節約できる、手続き�
   },
   {
     id: '6-2',
+    updatedAt: '2026-07-28',
     title: '倒産法（破産・民事再生・会社更生）',
     chapter: 6,
     scope: '3級',
