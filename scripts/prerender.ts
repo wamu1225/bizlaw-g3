@@ -121,6 +121,26 @@ const FIGURES: Record<string, string> = {
   </svg>
   <figcaption class="bl-fig-cap">抵当権・質権は、お金を借りた本人（<strong>主債務者</strong>）だけでなく、<strong>第三者が自分の財産を担保に差し出す</strong>形でも設定できる（民法369条1項「債務者又は第三者」）。この第三者を<strong>物上保証人</strong>という。物上保証人は自分の不動産に抵当権を設定するだけで、主債務者の借金そのものを負うわけではない。ただし主債務者が返済できなければ、債権者はその不動産から回収する（担保権の実行）。物上保証人が肩代わりして弁済したときは、主債務者に対して<strong>求償権</strong>（返してもらう権利）を持つ（民法351条・372条で抵当権に準用）。</figcaption>
 </figure>`,
+  'dispatch-triangle': `<figure class="bl-figure">
+  <svg viewBox="0 0 340 240" role="img" aria-label="労働者派遣の三者関係：派遣元・派遣先・労働者" class="bl-fig-svg">
+    <rect x="115" y="14" width="110" height="40" rx="6" fill="var(--primary-light)" stroke="var(--primary)" stroke-width="1.6" />
+    <text x="170" y="40" text-anchor="middle" font-size="19" font-weight="700" fill="var(--primary-text)">派遣元</text>
+    <rect x="12" y="172" width="124" height="40" rx="6" fill="var(--bg-warm)" stroke="var(--border-medium)" stroke-width="1.4" />
+    <text x="74" y="198" text-anchor="middle" font-size="19" font-weight="700" fill="var(--text)">労働者</text>
+    <rect x="204" y="172" width="124" height="40" rx="6" fill="var(--bg-warm)" stroke="var(--border-medium)" stroke-width="1.4" />
+    <text x="266" y="198" text-anchor="middle" font-size="19" font-weight="700" fill="var(--text)">派遣先</text>
+    <line x1="140" y1="50" x2="90" y2="172" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="200" y1="50" x2="250" y2="172" stroke="#94a3b8" stroke-width="1.4" />
+    <line x1="136" y1="192" x2="204" y2="192" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="3 2" />
+    <rect x="30" y="92" width="92" height="26" rx="5" fill="var(--card-bg)" stroke="#94a3b8" stroke-width="1" />
+    <text x="76" y="110" text-anchor="middle" font-size="15" font-weight="700" fill="var(--text-muted)">雇用契約</text>
+    <rect x="214" y="92" width="92" height="26" rx="5" fill="var(--card-bg)" stroke="#94a3b8" stroke-width="1" />
+    <text x="260" y="110" text-anchor="middle" font-size="15" font-weight="700" fill="var(--text-muted)">派遣契約</text>
+    <rect x="124" y="202" width="92" height="26" rx="5" fill="var(--card-bg)" stroke="var(--accent)" stroke-width="1" />
+    <text x="170" y="220" text-anchor="middle" font-size="15" font-weight="700" fill="var(--accent)">指揮命令</text>
+  </svg>
+  <figcaption class="bl-fig-cap"><strong>労働者を「雇う」のは派遣元</strong>（雇用契約で賃金支払い・社会保険加入）、<strong>「使う（指揮命令する）」のは派遣先</strong>（業務上の直接の使用関係）。派遣元と派遣先は派遣契約（役務提供）で結ばれる。「雇う人」と「使う人」が分離している点が、通常の雇用（会社←→労働者の二者関係）との決定的な違い。</figcaption>
+</figure>`,
 };
 
 // 行頭の絵文字マーカーは装飾でなくテキストラベルへ（2026-08-05・O-2-8：
