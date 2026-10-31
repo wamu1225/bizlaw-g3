@@ -115,7 +115,7 @@ export const glossary: Record<string, Term> = {
   'fraud': {
     id: 'fraud',
     term: '詐欺',
-    explanation: '他人を欺いて意思表示させること。被害者は取り消すことができるが、善意・無過失の第三者には取消しを対抗できません。強迫（脅された場合は善意の第三者にも対抗可能）との違いが試験頻出。',
+    explanation: '他人を欺いて意思表示させること。被害者は取り消すことができるが、善意・無過失の第三者には取消しを対抗できません。強迫（脅された場合は善意の第三者にも対抗可能）との違いが論点になる。',
     level: '中級',
     scope: '3級',
     relatedTerms: ['voidable', 'duress', 'good-faith'],

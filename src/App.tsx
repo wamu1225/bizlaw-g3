@@ -871,7 +871,7 @@ function App() {
             <motion.div key="glossary" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
               <div style={{ marginBottom: '1.5rem' }}>
                 <h2 style={{ margin: '0 0 0.25rem', fontSize: '1.25rem', fontWeight: 800 }}>用語集</h2>
-                <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--text-muted)' }}>ビジネス実務法務検定3級の頻出用語をまとめました。</p>
+                <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--text-muted)' }}>ビジネス実務法務検定3級の主要用語をまとめました。</p>
               </div>
               <div className="glossary-grid">
                 {Object.values(glossary).map(term => {
@@ -916,7 +916,7 @@ function App() {
                   <h3>コンテンツ構成</h3>
                   <ul>
                     <li><strong>学習モジュール（全{modules.length}モジュール）</strong>：{modules.map(m => m.title).join('・')}</li>
-                    <li><strong>用語集</strong>：3級頻出用語の解説</li>
+                    <li><strong>用語集</strong>：3級主要用語の解説</li>
                     <li><strong>全範囲クイズ</strong>：全モジュールからランダム出題</li>
                   </ul>
                 </section>

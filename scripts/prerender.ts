@@ -407,11 +407,11 @@ const glossaryFaqItems = glossaryTerms.slice(0, 20).map(t => ({
 const staticPageContents: Record<string, { title: string; description: string; bodyHtml: string; jsonLd?: object }> = {
   glossary: {
     title: '用語集',
-    description: 'ビジネス実務法務検定3級の頻出用語を一覧で解説。契約・不法行為・株式会社・知的財産権・労働契約など試験に出る専門用語を網羅。',
+    description: 'ビジネス実務法務検定3級の主要用語を一覧で解説。契約・不法行為・株式会社・知的財産権・労働契約など試験に出る専門用語を網羅。',
     bodyHtml: `<div style="background:#eff6ff;border-bottom:1px solid #bfdbfe;padding:10px 16px;font-size:0.88rem;text-align:center;margin-bottom:16px;border-radius:6px;max-width:860px;margin-left:auto;margin-right:auto"><a href="https://study-apps.com/" style="color:#1e3a8a;text-decoration:none;font-weight:600">← study-apps.com 学習サイト集トップへ</a></div><article id="static-fallback" style="font-family:sans-serif;line-height:1.7;max-width:860px;margin:0 auto;padding:24px 16px">
   <nav style="margin-bottom:16px"><a href="${BASE}/" style="color:#2563eb;text-decoration:none">← ホームへ戻る</a></nav>
   <h1 style="font-size:1.6rem;font-weight:700;border-bottom:2px solid #2563eb;padding-bottom:8px;margin-bottom:20px">用語集</h1>
-  <p style="color:#555;margin-bottom:24px">ビジネス実務法務検定3級の頻出用語を解説します。全${glossaryTerms.length}用語を難易度別に表示しています。</p>
+  <p style="color:#555;margin-bottom:24px">ビジネス実務法務検定3級の主要用語を解説します。全${glossaryTerms.length}用語を難易度別に表示しています。</p>
 ${glossaryTermsHtml}
 </article>`,
     jsonLd: { '@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': glossaryFaqItems }
@@ -456,20 +456,20 @@ ${glossaryTermsHtml}
   <p style="color:#444">試験問題は東京商工会議所発行の公式テキストから高い割合で出題される。4つの法律グループが主な出題範囲となり、特に民法グループの比重が高い。</p>
   <ul style="color:#444;padding-left:20px">
     <li><strong>民法グループ</strong>（民法・借地借家法・破産法・民事再生法・仮登記担保法）：最重要。契約・不法行為・物権が中心</li>
-    <li><strong>商法グループ</strong>（商法・会社法・手形法・小切手法・会社更生法）：株主総会・取締役の義務が頻出</li>
+    <li><strong>商法グループ</strong>（商法・会社法・手形法・小切手法・会社更生法）：株主総会・取締役の義務が中心</li>
     <li><strong>労働法グループ</strong>（労働基準法・労働組合法・男女雇用機会均等法・労働者派遣法）：解雇・賃金・労働条件の明示が重要</li>
-    <li><strong>特例法グループ</strong>（独占禁止法・不正競争防止法・消費者契約法・特定商取引法・個人情報保護法・特許法・著作権法・商標法・意匠法・実用新案法 他）：知財の保護期間・個人情報の定義が頻出</li>
+    <li><strong>特例法グループ</strong>（独占禁止法・不正競争防止法・消費者契約法・特定商取引法・個人情報保護法・特許法・著作権法・商標法・意匠法・実用新案法 他）：知財の保護期間・個人情報の定義が中心</li>
   </ul>
   <h3 style="font-size:1.05rem;font-weight:700;color:#2563eb;margin:16px 0 6px">① ビジネス実務法務の必要性と法体系</h3>
   <p style="color:#444">法の分類（公法・私法）、強行法規と任意法規、特別法優先の原則。「無効」と「取消し」、「善意・悪意」など日常語と異なる法的用語の正確な理解が最初の関門。</p>
   <h3 style="font-size:1.05rem;font-weight:700;color:#2563eb;margin:16px 0 6px">② 企業取引の法務</h3>
-  <p style="color:#444">契約の成立（申込みと承諾・到達主義）、契約種類（売買・請負・委任等）、契約不適合責任、消費者契約法。契約成立の要件と各契約類型の特徴が最頻出。</p>
+  <p style="color:#444">契約の成立（申込みと承諾・到達主義）、契約種類（売買・請負・委任等）、契約不適合責任、消費者契約法。契約成立の要件と各契約類型の特徴が中心となる論点。</p>
   <h3 style="font-size:1.05rem;font-weight:700;color:#2563eb;margin:16px 0 6px">③ 企業と従業員の関係</h3>
   <p style="color:#444">労働基準法の基本原則（賃金支払い5原則）、就業規則の効力、雇用契約と業務委託の区別。労働者性の判断基準と解雇要件が重要。</p>
   <h3 style="font-size:1.05rem;font-weight:700;color:#2563eb;margin:16px 0 6px">④ ビジネス上のリスク管理</h3>
   <p style="color:#444">不法行為の成立要件（故意・過失・因果関係）、製造物責任法（PL法=無過失責任）、個人情報保護法（死者の情報は対象外）。数値・要件の暗記が得点に直結。</p>
   <h3 style="font-size:1.05rem;font-weight:700;color:#2563eb;margin:16px 0 6px">⑤ 企業活動に関わる法規制</h3>
-  <p style="color:#444">独占禁止法（不当な取引制限・不公正な取引方法）、下請法の概要。知的財産権の種類ごとの保護期間と登録要否は頻出暗記事項。</p>
+  <p style="color:#444">独占禁止法（不当な取引制限・不公正な取引方法）、下請法の概要。知的財産権の種類ごとの保護期間と登録要否は暗記しておく事項。</p>
   <h3 style="font-size:1.05rem;font-weight:700;color:#2563eb;margin:16px 0 6px">⑥ 紛争の解決方法</h3>
   <p style="color:#444">民事訴訟・調停・仲裁・ADRの違い。仲裁は仲裁人の判断に当事者が従う義務があり訴訟不可（調停とは異なる）。混同しやすい重要ポイント。</p>
 
@@ -484,7 +484,7 @@ ${glossaryTermsHtml}
   <p style="color:#444"><strong style="color:#15803d">第2期｜5〜8週目　アウトプットと弱点補強（週5時間×4週＝計20時間）</strong></p>
   <ul style="color:#444;padding-left:20px">
     <li>一問一答形式の問題集で知識の定着を確認する</li>
-    <li>分野別過去問を実施し、頻出項目と自身の弱点を特定する</li>
+    <li>分野別過去問を実施し、出題範囲の各項目と自身の弱点を特定する</li>
     <li>間違えた問題はテキストに戻り「なぜその結論になるのか」という論理を再構築する</li>
     <li>配点の中心「企業取引（民法）」に重点投資する</li>
   </ul>
@@ -501,7 +501,7 @@ ${glossaryTermsHtml}
   <table style="width:100%;border-collapse:collapse;font-size:0.9rem;margin-bottom:12px">
     <thead><tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0"><th style="padding:8px 12px;text-align:left">出版社・教材名</th><th style="padding:8px 12px;text-align:center">おすすめ度</th><th style="padding:8px 12px;text-align:left">特徴</th><th style="padding:8px 12px;text-align:left">向いている人</th></tr></thead>
     <tbody>
-      <tr style="border-bottom:1px solid #e2e8f0"><td style="padding:8px 12px;font-weight:700">TAC『テキスト＆一問一答』</td><td style="padding:8px 12px;text-align:center;color:#f59e0b">★★★★★</td><td style="padding:8px 12px">A/B/Cランク表示で頻出論点を特化。語呂合わせあり</td><td style="padding:8px 12px;color:#6b7280">短期集中・効率性重視のビジネスパーソン</td></tr>
+      <tr style="border-bottom:1px solid #e2e8f0"><td style="padding:8px 12px;font-weight:700">TAC『テキスト＆一問一答』</td><td style="padding:8px 12px;text-align:center;color:#f59e0b">★★★★★</td><td style="padding:8px 12px">A/B/Cランク表示つき。語呂合わせあり</td><td style="padding:8px 12px;color:#6b7280">短期集中・効率性重視のビジネスパーソン</td></tr>
       <tr style="border-bottom:1px solid #e2e8f0"><td style="padding:8px 12px;font-weight:700">成美堂出版『テキスト＆問題集』</td><td style="padding:8px 12px;text-align:center;color:#f59e0b">★★★★☆</td><td style="padding:8px 12px">公式テキスト準拠。図解が豊富で初学者に優しい</td><td style="padding:8px 12px;color:#6b7280">基礎から体系的に学びたい独学者</td></tr>
       <tr><td style="padding:8px 12px;font-weight:700">翔泳社『分野別過去問題集』</td><td style="padding:8px 12px;text-align:center;color:#f59e0b">★★★★☆</td><td style="padding:8px 12px">過去9回分を精選、詳細解説、IBT模擬試験付き</td><td style="padding:8px 12px;color:#6b7280">演習量で実力を定着させたい層</td></tr>
     </tbody>
@@ -563,7 +563,7 @@ ${glossaryTermsHtml}
     <h2 style="font-size:1.2rem;font-weight:700;margin-bottom:8px">コンテンツ構成</h2>
     <ul style="color:#444;padding-left:20px">
       <li><strong>学習モジュール（全${modules.length}モジュール）</strong>：${modules.map(m => m.title).join('・')}</li>
-      <li><strong>用語集</strong>：頻出用語の解説</li>
+      <li><strong>用語集</strong>：主要用語の解説</li>
       <li><strong>確認クイズ</strong>：各モジュールの理解度確認（全${modules.reduce((s: number, m: { quiz: unknown[] }) => s + m.quiz.length, 0)}問）</li>
       <li><strong>全範囲クイズ</strong>：全モジュールからランダム出題</li>
     </ul>
