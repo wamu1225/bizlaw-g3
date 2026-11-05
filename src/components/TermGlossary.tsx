@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, Link as LinkIcon } from 'lucide-react';
 import { glossary } from '../data/glossary';
 import { modules } from '../data/modules';
+import { sitePath, spaClick } from '../utils/spaLink';
 
 interface Props {
   termId: string;
@@ -95,9 +96,9 @@ export const TermText: React.FC<Props> = ({ termId, children, onNavigate, render
                   <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600, margin: '0 0 0.5rem' }}>解説ページで詳しく学ぶ：</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
                     {relatedModules.map(m => (
-                      <button key={m.id} className="btn-link" style={{ justifyContent: 'space-between', padding: '0.5rem' }} onClick={() => handleNavigate(m.id)}>
+                      <a key={m.id} className="btn-link" style={{ justifyContent: 'space-between', padding: '0.5rem' }} href={sitePath(m.id)} onClick={spaClick(() => handleNavigate(m.id))}>
                         {m.title} <ArrowRight size={14} />
-                      </button>
+                      </a>
                     ))}
                   </div>
                 </div>

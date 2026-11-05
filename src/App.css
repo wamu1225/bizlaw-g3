@@ -895,3 +895,31 @@
     padding: 0.4rem 0.6rem;
   }
 }
+
+/* 画面遷移は <a href>（2026-11-05・stats-pre1 と同じ）。ボタン風・カード風のリンクに下線と青字が付かないようにする */
+a.brand, a.nav-tab, a.btn-back, a.btn, a.btn-link, .module-bottom-nav a { text-decoration: none; }
+/* button は行の高さが normal なので、置き換えた a もそろえる（そろえないと本文の 1.75 を継いで背が伸びる） */
+a.nav-tab, a.btn-back, a.btn, a.btn-link, a.footer-link, .module-bottom-nav a { line-height: normal; }
+a.brand { color: inherit; }
+.module-bottom-nav a {
+  flex: 1;
+  min-width: 180px;
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius-btn);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.4rem;
+}
+.module-bottom-nav a.btn-next-module { flex: 2; }
+/* カード全体を押せるまま、リンクの文字は題名だけにする（カードの ::after を題名のリンクに広げる） */
+.card-linked { position: relative; }
+.card-linked a.card-link { color: inherit; text-decoration: none; }
+.card-linked a.card-link::after { content: ''; position: absolute; inset: 0; }
+.card-linked a.card-link:focus-visible { outline: none; }
+.card-linked:has(a.card-link:focus-visible) { outline: 2px solid var(--primary); outline-offset: 2px; }
