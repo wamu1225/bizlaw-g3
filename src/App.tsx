@@ -824,7 +824,7 @@ function App() {
                         } as React.CSSProperties}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                           <span style={{
-                            background: cc.accent, color: '#fff',
+                            background: cc.text, color: '#fff',
                             fontSize: '0.7rem', fontWeight: 700,
                             padding: '2px 8px', borderRadius: '9999px', letterSpacing: '0.05em',
                           }}>Chapter {m.chapter}</span>
