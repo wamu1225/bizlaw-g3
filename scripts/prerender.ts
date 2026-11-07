@@ -583,6 +583,21 @@ ${glossaryTermsHtml}
   <p style="margin-top:32px"><a href="${BASE}/" style="color:#2563eb">← ホームへ戻る</a></p>
 </article>`
   },
+  randomquiz: {
+    title: '全範囲クイズ',
+    description: `ビジネス実務法務検定3級の全${modules.length}モジュールから2問ずつ、計${modules.length * 2}問をランダムな順で出題するクイズ。契約・債権・会社法・労働法まで横断して復習できます。`,
+    bodyHtml: `<div style="background:#eff6ff;border-bottom:1px solid #bfdbfe;padding:10px 16px;font-size:0.88rem;text-align:center;margin-bottom:16px;border-radius:6px;max-width:860px;margin-left:auto;margin-right:auto"><a href="https://study-apps.com/" style="color:#1e3a8a;text-decoration:none;font-weight:600">← study-apps.com 学習サイト集トップへ</a></div><article id="static-fallback" style="font-family:sans-serif;line-height:1.7;max-width:860px;margin:0 auto;padding:24px 16px">
+  <nav style="margin-bottom:16px"><a href="${BASE}/" style="color:#2563eb;text-decoration:none">← ホームへ戻る</a></nav>
+  <h1 style="font-size:1.6rem;font-weight:700;border-bottom:2px solid #2563eb;padding-bottom:8px;margin-bottom:20px">全範囲クイズ</h1>
+  <p style="color:#555;margin-bottom:20px">全${modules.length}モジュールから2問ずつ、計${modules.length * 2}問をランダムな順で出題します。各問題に解説と出題元のモジュール名が付くので、まちがえた範囲へすぐ戻れます。</p>
+  <p style="color:#444">クイズを始めるには、JavaScript を有効にしてこのページを開いてください。</p>
+  <h2 style="font-size:1.2rem;font-weight:700;margin:24px 0 12px">出題するモジュール</h2>
+  <ul style="list-style:none;padding:0">
+    ${modules.map(m => `<li style="margin-bottom:6px"><a href="${BASE}/${m.id}/" style="color:#2563eb;text-decoration:none;font-size:0.95rem">${escHtml(m.title)}</a></li>`).join('\n    ')}
+  </ul>
+  <p style="margin-top:24px"><a href="${BASE}/" style="color:#2563eb">← ホームへ戻る</a></p>
+</article>`
+  },
   privacy: {
     title: 'プライバシーポリシー',
     description: 'ビジネス実務法務検定3級 学習リファレンスのプライバシーポリシー。個人情報の取り扱いについて説明します。',
