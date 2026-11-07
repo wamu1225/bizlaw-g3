@@ -881,7 +881,7 @@ function App() {
               </div>
               <div className="glossary-grid">
                 {Object.values(glossary).map(term => {
-                  const levelColor = { '基礎': '#22c55e', '中級': '#eab308', '上級': '#ef4444' }[term.level];
+                  const levelColor = { '基礎': '#15803d', '中級': '#a16207', '上級': '#b91c1c' }[term.level];
                   return (
                     <div key={term.id} className="card-glossary">
                       <div className="glossary-header">
