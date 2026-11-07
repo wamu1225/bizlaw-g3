@@ -825,7 +825,7 @@ function App() {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                           <span style={{
                             background: cc.accent, color: '#fff',
-                            fontSize: '0.65rem', fontWeight: 700,
+                            fontSize: '0.7rem', fontWeight: 700,
                             padding: '2px 8px', borderRadius: '9999px', letterSpacing: '0.05em',
                           }}>Chapter {m.chapter}</span>
                           <span style={{ fontSize: '0.7rem', color: cc.text, fontWeight: 600 }}>
